@@ -1,6 +1,8 @@
 import React from "react";
+import { Link, Route } from "react-router-dom";
 import styled from "styled-components";
 import MoviePath from "../../IMG/Movie.jpg";
+import MovieInfo from "./MovieInfo";
 
 const MoviesContainer = styled.section`
   margin: 86px 0 0 auto;
@@ -90,7 +92,27 @@ const MoviesSlider = styled.div`
   }
 
   .MovieInfo p {
+    color: #292a32;
     margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .MovieInfo__name {
+    font-size: 16px !important;
+    font-weight: 500;
+  }
+
+  .MovieInfo__from {
+  }
+
+  .MovieInfo__average {
+    color: #555765;
+  }
+
+  .MovieInfo__performance {
+    font-size: 13px !important;
+    letter-spacing: -0.3px;
   }
 `;
 
@@ -106,298 +128,84 @@ function MainContainer() {
             <div className="inner">
               <ul>
                 <li>
-                  <div className="Movie">
-                    <a>
+                  <Link to="/movieinfo">
+                    <div className="Movie">
                       <div className="RankNumber">1</div>
                       <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
+                    </div>
+                    <div className="MovieInfo">
+                      <p className="MovieInfo__name">원더 우먼 1984</p>
+                      <p className="MovieInfo__from">2020 ・ 미국</p>
+                      <p className="MovieInfo__average">평균 ★ 2.9</p>
+                      <p className="MovieInfo__performance">
+                        예매율 34% ・ 누적 관객 30만명
+                      </p>
+                    </div>
+                  </Link>
                 </li>
                 <li>
-                  <div className="Movie">
-                    <a>
+                  <a href="">
+                    <div className="Movie">
                       <div className="RankNumber">1</div>
                       <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
+                    </div>
+                    <div className="MovieInfo">
+                      <p className="MovieInfo__name">원더 우먼 1984</p>
+                      <p className="MovieInfo__from">2020 ・ 미국</p>
+                      <p className="MovieInfo__average">평균 ★ 2.9</p>
+                      <p className="MovieInfo__performance">
+                        예매율 34% ・ 누적 관객 30만명
+                      </p>
+                    </div>
+                  </a>
                 </li>
                 <li>
-                  <div className="Movie">
-                    <a>
+                  <a href="">
+                    <div className="Movie">
                       <div className="RankNumber">1</div>
                       <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
+                    </div>
+                    <div className="MovieInfo">
+                      <p className="MovieInfo__name">원더 우먼 1984</p>
+                      <p className="MovieInfo__from">2020 ・ 미국</p>
+                      <p className="MovieInfo__average">평균 ★ 2.9</p>
+                      <p className="MovieInfo__performance">
+                        예매율 34% ・ 누적 관객 30만명
+                      </p>
+                    </div>
+                  </a>
                 </li>
                 <li>
-                  <div className="Movie">
-                    <a>
+                  <a href="">
+                    <div className="Movie">
                       <div className="RankNumber">1</div>
                       <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
+                    </div>
+                    <div className="MovieInfo">
+                      <p className="MovieInfo__name">원더 우먼 1984</p>
+                      <p className="MovieInfo__from">2020 ・ 미국</p>
+                      <p className="MovieInfo__average">평균 ★ 2.9</p>
+                      <p className="MovieInfo__performance">
+                        예매율 34% ・ 누적 관객 30만명
+                      </p>
+                    </div>
+                  </a>
                 </li>
                 <li>
-                  <div className="Movie">
-                    <a>
+                  <a href="">
+                    <div className="Movie">
                       <div className="RankNumber">1</div>
                       <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
-                </li>
-                <li>
-                  <div className="Movie">
-                    <a>
-                      <div className="RankNumber">1</div>
-                      <img src={MoviePath}></img>
-                    </a>
-                  </div>
-                  <div className="MovieInfo">
-                    <p>원더 우먼 1984</p>
-                    <p>2020 ・ 미국</p>
-                    <p>평균</p>
-                    <p>예매율 34% ・ 누적 관객 30만명</p>
-                  </div>
+                    </div>
+                    <div className="MovieInfo">
+                      <p className="MovieInfo__name">원더 우먼 1984</p>
+                      <p className="MovieInfo__from">2020 ・ 미국</p>
+                      <p className="MovieInfo__average">평균 ★ 2.9</p>
+                      <p className="MovieInfo__performance">
+                        예매율 34% ・ 누적 관객 30만명
+                      </p>
+                    </div>
+                  </a>
                 </li>
               </ul>
             </div>
