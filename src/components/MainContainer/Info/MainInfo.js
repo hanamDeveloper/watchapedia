@@ -1,7 +1,7 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import characterPath from "../../IMG/Character.PNG";
-import PlusPath from "../../IMG/Plus.png";
+import PlusPath from "../../../IMG/Plus.png";
 
 const MainInfoBackground = styled.div`
   width: 100%;
@@ -31,7 +31,7 @@ const MainInfoContainer = styled.div`
 
   .content-box {
     width: 95%;
-    /* display: flex; */
+    padding-bottom: 15px;
     margin: 0 auto;
     border-bottom: 1px solid rgb(227, 227, 227);
 
@@ -56,6 +56,7 @@ const MainInfoContainer = styled.div`
       display: flex;
       flex-wrap: wrap;
     }
+
     li {
       display: flex;
 
@@ -67,6 +68,23 @@ const MainInfoContainer = styled.div`
       display: flex;
       align-items: center;
       width: 100%;
+
+      p {
+        margin: 5px 0 0 0px;
+
+        color: rgb(140, 140, 140);
+        font-size: 14px;
+        font-weight: 400;
+      }
+
+      .title {
+        color: rgb(30, 30, 30);
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: -0.7px;
+        line-height: 22px;
+        white-space: nowrap;
+      }
     }
 
     li img {
@@ -121,14 +139,45 @@ const MainInfoContainer = styled.div`
   }
 `;
 
-function MainInfo() {
+function MainInfo({ match }) {
+  const { movies } = useSelector((state) => ({
+    movies: state.movies,
+  }));
+
+  const matchId = Number(match.params.id);
+
+  const movie = movies[matchId - 1].character;
+
+  const character1 = movie.map((test) => test.character1);
+  const character2 = movie.map((test) => test.character2);
+  const character3 = movie.map((test) => test.character3);
+  const character4 = movie.map((test) => test.character4);
+  const character5 = movie.map((test) => test.character5);
+  const character6 = movie.map((test) => test.character6);
+
+  // console.log(character1);
+  // console.log(character2);
+  // console.log(character3);
+  // console.log(character4);
+  // console.log(character5);
+  // console.log(character6);
+
+  // console.log(
+  //   "test",
+  //   movie.character.map((test) => test)
+  // );
+  // console.log(
+  //   "character1",
+  //   movie.character.map((test) => test.character1)
+  // );
+
   return (
     <MainInfoBackground>
       <MainInfoContainer>
         <div className="content-box">
           <div className="basic-information">
             <h3>기본정보</h3>
-            <a href="">더보기</a>
+            <a href="#!">더보기</a>
           </div>
           <div className="basic-infomation__detail">
             <p>Wonder Woman 1984</p>
@@ -153,60 +202,72 @@ function MainInfo() {
           </div>
           <div className="appearance-production">
             <ul>
-              <li>
-                <div className="character-box">
-                  <img src={characterPath}></img>
-                  <div className="character-text-box">
-                    패티 젠킨스
-                    <p>감독</p>
+              {character1.map((character) => (
+                <li>
+                  <div className="character-box">
+                    <img src={character.character_image} alt=""></img>
+                    <div className="character-text-box">
+                      <p className="title">{character.character_name}</p>
+                      <p>{character.character_position}</p>
+                    </div>
                   </div>
-                </div>
-              </li>
-              <li>
-                <div className="character-box">
-                  <img src={characterPath}></img>
-                  <div className="character-text-box">
-                    패티 젠킨스
-                    <p>감독</p>
+                </li>
+              ))}
+              {character2.map((character) => (
+                <li>
+                  <div className="character-box">
+                    <img src={character.character_image} alt=""></img>
+                    <div className="character-text-box">
+                      <p className="title">{character.character_name}</p>
+                      <p>{character.character_position}</p>
+                    </div>
                   </div>
-                </div>
-              </li>
-              <li>
-                <div className="character-box">
-                  <img src={characterPath}></img>
-                  <div className="character-text-box">
-                    패티 젠킨스
-                    <p>감독</p>
+                </li>
+              ))}
+              {character3.map((character) => (
+                <li>
+                  <div className="character-box">
+                    <img src={character.character_image} alt=""></img>
+                    <div className="character-text-box">
+                      <p className="title">{character.character_name}</p>
+                      <p>{character.character_position}</p>
+                    </div>
                   </div>
-                </div>
-              </li>
-              <li>
-                <div className="character-box">
-                  <img src={characterPath}></img>
-                  <div className="character-text-box">
-                    패티 젠킨스
-                    <p>감독</p>
+                </li>
+              ))}
+              {character4.map((character) => (
+                <li>
+                  <div className="character-box">
+                    <img src={character.character_image} alt=""></img>
+                    <div className="character-text-box">
+                      <p className="title">{character.character_name}</p>
+                      <p>{character.character_position}</p>
+                    </div>
                   </div>
-                </div>
-              </li>
-              <li>
-                <div className="character-box">
-                  <img src={characterPath}></img>
-                  <div className="character-text-box">
-                    패티 젠킨스
-                    <p>감독</p>
+                </li>
+              ))}
+              {character5.map((character) => (
+                <li>
+                  <div className="character-box">
+                    <img src={character.character_image} alt=""></img>
+                    <div className="character-text-box">
+                      <p className="title">{character.character_name}</p>
+                      <p>{character.character_position}</p>
+                    </div>
                   </div>
-                </div>
-              </li>
-              <li>
-                <div className="character-box">
-                  <img src={characterPath}></img>
-                  <div className="character-text-box">
-                    패티 젠킨스
-                    <p>감독</p>
+                </li>
+              ))}
+              {character6.map((character) => (
+                <li>
+                  <div className="character-box">
+                    <img src={character.character_image} alt=""></img>
+                    <div className="character-text-box">
+                      <p className="title">{character.character_name}</p>
+                      <p>{character.character_position}</p>
+                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -218,7 +279,7 @@ function MainInfo() {
             <div className="coment-input">
               <input></input>
               <button>
-                <img className="StatusImage" src={PlusPath}></img>
+                <img className="StatusImage" src={PlusPath} alt=""></img>
               </button>
             </div>
             <div className="coments">
