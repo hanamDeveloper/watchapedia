@@ -1,12 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import LogoPath from "../IMG/로고.PNG";
+import LogoPath from "../IMG/yspedia.png";
 
 const HeaderContainer = styled.div`
   position: fixed;
   top: 0px;
   left: 0px;
-  background-color: rgb(0, 0, 0 0);
+  background-color: #ffffff;
   width: 100%;
   height: 62px;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 0px 0px;
@@ -37,6 +38,7 @@ const HeaderBox = styled.div`
   }
 
   li {
+    color: rgb(126, 126, 126);
     margin-left: 24px;
     list-style: none;
   }
@@ -100,6 +102,11 @@ const HeaderBox = styled.div`
     padding: 5px 14px 6px;
     border: 1px solid rgba(116, 116, 123, 0.5);
   }
+
+  img {
+    width: 151px;
+    height: 37px;
+  }
 `;
 function Header() {
   return (
@@ -108,11 +115,12 @@ function Header() {
         <div className="Category">
           <ul>
             <li>
-              <img src={LogoPath}></img>
+              <Link to="/">
+                <img src={LogoPath} alt=""></img>
+              </Link>
             </li>
             <li>영화</li>
-            <li>TV 프로그램</li>
-            <li>책</li>
+
             <div className="right-content">
               <ul>
                 <li>
