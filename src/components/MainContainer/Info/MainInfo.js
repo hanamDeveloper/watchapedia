@@ -1,6 +1,7 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import { db } from "../../../firebase";
 import PlusPath from "../../../IMG/Plus.png";
 
 const MainInfoBackground = styled.div`
@@ -130,6 +131,14 @@ const MainInfoContainer = styled.div`
       }
     }
 
+    span {
+      color: rgb(140, 140, 140);
+
+      &:last-child {
+        margin-left: 5px;
+      }
+    }
+
     li {
       padding: 5px 0px 5px 10px;
       margin: 10px 0;
@@ -140,17 +149,58 @@ const MainInfoContainer = styled.div`
 `;
 
 function MainInfo({ match }) {
-  const { movies } = useSelector((state) => ({
+  const { movies, input, users, comments } = useSelector((state) => ({
+    input: state.input,
     movies: state.movies,
+    users: state.users,
+    comments: state.comments,
   }));
+
+  useEffect(() => {
+    dispatch({
+      type: "COMMENT_RESET",
+    });
+
+    const MOVIE_RESPONSE = db.ref(`/Movies/${matchId - 1}/comments`);
+    MOVIE_RESPONSE.on("child_added", (data) => {
+      const commnet = data.val();
+
+      const user = {
+        userName: commnet.userName,
+        comment: commnet.comment,
+      };
+
+      dispatch({
+        type: "COMMENT",
+        user,
+      });
+    });
+  }, []);
+
+  const dispatch = useDispatch();
 
   const matchId = Number(match.params.id);
 
   const movie = movies[matchId - 1].character;
 
-  // console.log(movies.map((movie) => movie));
+  const onChange = (e) => {
+    dispatch({
+      type: "CHANGE_INPUT",
+      input: e.target.value,
+    });
+  };
 
-  console.log("test", movies[matchId - 1].movie_story);
+  const onClick = () => {
+    dispatch({
+      type: "ADD_COMENT",
+      input,
+    });
+
+    db.ref(`/Movies/${matchId - 1}/comments`).push({
+      comment: input,
+      userName: users.user.userName,
+    });
+  };
 
   const character1 = movie.map((test) => test.character1);
   const character2 = movie.map((test) => test.character2);
@@ -273,22 +323,19 @@ function MainInfo({ match }) {
           </div>
           <div className="coment-box">
             <div className="coment-input">
-              <input></input>
-              <button>
+              <input onChange={onChange} value={input}></input>
+              <button onClick={onClick}>
                 <img className="StatusImage" src={PlusPath} alt=""></img>
               </button>
             </div>
             <div className="coments">
               <ul>
-                <li>김영섭: 지짜 대바기약!!</li>
-                <li>최수현: 지짜 대바기약!!</li>
-                <li>이정윤: 아휴 머리아파..!!</li>
-                <li>김영섭: 지짜 대바기약!!</li>
-                <li>최수현: 지짜 대바기약!!</li>
-                <li>이정윤: 아휴 머리아파..!!</li>
-                <li>김영섭: 지짜 대바기약!!</li>
-                <li>최수현: 지짜 대바기약!!</li>
-                <li>이정윤: 아휴 머리아파..!!</li>
+                {comments.map((comment) => (
+                  <li>
+                    <span>{comment.userName} :</span>
+                    <span>{comment.comment}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

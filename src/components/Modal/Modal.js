@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import imgLogo from "../../IMG/LoginLogo.PNG";
 import closePath from "../../IMG/Close.PNG";
-import { authService, db, firebaseInstance } from "../../firebase";
+import { authService, firebaseInstance } from "../../firebase";
 
 const ModalContainer = styled.div`
   .modal-wrapper {
@@ -172,28 +172,27 @@ function Modal() {
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
+        console.log("login");
         dispatch({
           type: "LOGIN",
+          user,
         });
       } else {
-        dispatch({
-          type: "LOGIN",
-        });
+        console.log("로그인실패");
       }
-      console.log("user", user);
     });
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
       <ModalContainer display={modal ? "flex" : "none"}>
-        <div class="modal-wrapper">
-          <div class="login-modal">
-            <div class="close-wrapper">
+        <div className="modal-wrapper">
+          <div className="login-modal">
+            <div className="close-wrapper">
               <button onClick={() => onClickOpenModal(false)}></button>
             </div>
-            <img src={imgLogo}></img>
-            <p class="modal-title">{signUp ? "회원가입" : "로그인"}</p>
+            <img src={imgLogo} alt=""></img>
+            <p className="modal-title">{signUp ? "회원가입" : "로그인"}</p>
 
             <input placeholder="이메일"></input>
             <input placeholder="패스워드"></input>

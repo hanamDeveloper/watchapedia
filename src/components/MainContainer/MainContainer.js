@@ -5,7 +5,6 @@ import Header from "../Hedaer";
 import Footer from "./Footer/FooterContainer";
 import MovieInfo from "./Info/MovieInfo";
 import MoviesContainer from "./MoviesContainer";
-// import authService from "../../firebase";
 
 const MainPageContainer = styled.div`
   margin: 0 auto;

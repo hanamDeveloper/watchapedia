@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import LogoPath from "../IMG/yspedia.png";
 import Modal from "./Modal/Modal";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { authService, firebaseInstance } from "../firebase";
 
 const HeaderContainer = styled.div`
   position: fixed;
@@ -124,6 +125,10 @@ const HeaderBox = styled.div`
   }
 `;
 function Header() {
+  const { login } = useSelector((state) => ({
+    login: state.login,
+  }));
+
   const dispatch = useDispatch();
 
   const onClickOpenModal = (modal) => {
@@ -132,6 +137,19 @@ function Header() {
       modal,
     });
   };
+
+  const onClickLogOut = () => {
+    authService.onAuthStateChanged((user) => {
+      if (user) {
+        console.log("logout할게욤!");
+        firebaseInstance.auth().signOut();
+        alert("로그아웃되었습니다.");
+      } else {
+        console.log("logout되어이썽요");
+      }
+    });
+  };
+
   return (
     <HeaderContainer>
       <HeaderBox>
@@ -154,11 +172,15 @@ function Header() {
                   </form>
                 </li>
                 <li>
-                  <button onClick={() => onClickOpenModal(true)}>로그인</button>
+                  <button onClick={() => onClickOpenModal(true)}>
+                    {login ? "로그아웃" : "로그인"}
+                  </button>
                   <Modal />
                 </li>
                 <li>
-                  <button className="sign-up">회원가입</button>
+                  <button onClick={onClickLogOut} className="sign-up">
+                    로그아웃
+                  </button>
                 </li>
               </ul>
             </div>
