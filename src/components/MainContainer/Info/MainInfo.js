@@ -148,6 +148,10 @@ function MainInfo({ match }) {
 
   const movie = movies[matchId - 1].character;
 
+  // console.log(movies.map((movie) => movie));
+
+  console.log("test", movies[matchId - 1].movie_story);
+
   const character1 = movie.map((test) => test.character1);
   const character2 = movie.map((test) => test.character2);
   const character3 = movie.map((test) => test.character3);
@@ -180,20 +184,12 @@ function MainInfo({ match }) {
             <a href="#!">더보기</a>
           </div>
           <div className="basic-infomation__detail">
-            <p>Wonder Woman 1984</p>
-            <p>2020 · 미국 · 액션</p>
-            <p>2시간 31분</p>
+            <p>{movies[matchId - 1].movie_name}</p>
+            <p>{movies[matchId - 1].movie_genre}</p>
+            <p>{movies[matchId - 1].movie_playtime}</p>
 
             <h4>내용 </h4>
-            <p>
-              세상이 기다린 히어로, 희망이 되다! 1984년 모든 것이 활기찬 시대,
-              다이애나 프린스는 고고학자로서 인간들 사이에서 조용히 살고 있다.
-              단지 원더 우먼으로서 위기에 처한 사람을 구할 때만 빼고는. 그런
-              다이애나 앞에 거짓말처럼 죽었던 스티브 트레버가 나타나고, 거부할
-              수 없는 적마저 함께 찾아오는데…지나친 풍요로움이 과잉이 되어 또
-              다시 위협받는 인류, 위태로운 세상에 오직 원더 우먼만이 희망이다!
-              그 어떤 적도 피하지 않는다!
-            </p>
+            <p>{movies[matchId - 1].movie_story}</p>
           </div>
         </div>
         <div className="content-box">

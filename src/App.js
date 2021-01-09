@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MainContainer from "./components/MainContainer/MainContainer";
-import { db } from "./firebase";
+import { authService, db } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
 import "./CSS/reset.css";
 import "./App.css";
+import Modal from "./components/Modal/Modal";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,10 +25,26 @@ function App() {
   useEffect(() => {
     fetchMovie();
   }, []);
+  // const [init, setInit] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // useEffect(() => {
+  //   authService.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       setIsLoggedIn(true);
+  //     } else {
+  //       setIsLoggedIn(false);
+  //     }
+  //     setInit(true);
+  //   });
+  // });
   return (
     <>
       <div className="App">
         <MainContainer></MainContainer>
+
+        {/* <Auth></Auth>
+        {init ? <Auth isLoggedIn={isLoggedIn} /> : "Initalizing..."}
+        {/* <Modal /> */}
       </div>
     </>
   );
