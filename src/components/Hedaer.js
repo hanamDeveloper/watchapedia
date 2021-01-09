@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import LogoPath from "../IMG/yspedia.png";
+import Modal from "./Modal/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { authService, firebaseInstance } from "../firebase";
 
 const HeaderContainer = styled.div`
   position: fixed;
@@ -51,7 +54,20 @@ const HeaderBox = styled.div`
     right: 0px;
   }
 
-  .right-content label {
+  /* .right-content label {
+    width: 300px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+
+    background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIyMiIgdmlld0JveD0iMCAwIDIyIDIyIj4KICAgIDxwYXRoIGZpbGw9IiNCQUJBQzMiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTkuODE0IDE1LjczNWMtMy4yMDcgMC01LjgxNy0yLjYzLTUuODE3LTUuODYxIDAtMy4yMzMgMi42MS01Ljg2MiA1LjgxNy01Ljg2MiAzLjIwNyAwIDUuODE4IDIuNjMgNS44MTggNS44NjJzLTIuNjEgNS44Ni01LjgxOCA1Ljg2bTkuODQxIDIuNTRsLTMuNjYtMy43MDRjLjk4LTEuMzEgMS41NzEtMi45MzIgMS41NzEtNC42OTYgMC00LjMwOC0zLjQ3OC03LjgxMi03Ljc1Mi03LjgxMi00LjI3NCAwLTcuNzUyIDMuNTA0LTcuNzUyIDcuODEyIDAgNC4zMDcgMy40NzggNy44MSA3Ljc1MiA3LjgxIDEuODI5IDAgMy41MDctLjY0NCA0LjgzNC0xLjcxNGwzLjYzNyAzLjY4Yy4xODIuMTg2LjQyNi4yODguNjg1LjI4OC4yNTcgMCAuNS0uMS42ODMtLjI4NC4xODItLjE4NC4yODQtLjQzLjI4NS0uNjkgMC0uMjYtLjEtLjUwNS0uMjgzLS42OSIvPgo8L3N2Zz4K")
+      9px 8px no-repeat rgb(245, 245, 247);
+    height: 38px;
+    padding: 7px 10px 8px 36px;
+    border-radius: 2px;
+  } */
+
+  .label {
     width: 300px;
     display: flex;
     align-items: center;
@@ -109,6 +125,31 @@ const HeaderBox = styled.div`
   }
 `;
 function Header() {
+  const { login } = useSelector((state) => ({
+    login: state.login,
+  }));
+
+  const dispatch = useDispatch();
+
+  const onClickOpenModal = (modal) => {
+    dispatch({
+      type: "OPEN_MODAL",
+      modal,
+    });
+  };
+
+  const onClickLogOut = () => {
+    authService.onAuthStateChanged((user) => {
+      if (user) {
+        console.log("logout할게욤!");
+        firebaseInstance.auth().signOut();
+        alert("로그아웃되었습니다.");
+      } else {
+        console.log("logout되어이썽요");
+      }
+    });
+  };
+
   return (
     <HeaderContainer>
       <HeaderBox>
@@ -131,10 +172,15 @@ function Header() {
                   </form>
                 </li>
                 <li>
-                  <button>로그인</button>
+                  <button onClick={() => onClickOpenModal(true)}>
+                    {login ? "로그아웃" : "로그인"}
+                  </button>
+                  <Modal />
                 </li>
                 <li>
-                  <button className="sign-up">회원가입</button>
+                  <button onClick={onClickLogOut} className="sign-up">
+                    로그아웃
+                  </button>
                 </li>
               </ul>
             </div>

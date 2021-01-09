@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import MainContainer from "./components/MainContainer/MainContainer";
 import { db } from "./firebase";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import "./CSS/reset.css";
 import "./App.css";
 
@@ -24,6 +24,18 @@ function App() {
   useEffect(() => {
     fetchMovie();
   }, []);
+  // const [init, setInit] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // useEffect(() => {
+  //   authService.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       setIsLoggedIn(true);
+  //     } else {
+  //       setIsLoggedIn(false);
+  //     }
+  //     setInit(true);
+  //   });
+  // });
   return (
     <>
       <div className="App">

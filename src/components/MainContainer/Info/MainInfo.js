@@ -1,6 +1,7 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import { db } from "../../../firebase";
 import PlusPath from "../../../IMG/Plus.png";
 
 const MainInfoBackground = styled.div`
@@ -130,6 +131,14 @@ const MainInfoContainer = styled.div`
       }
     }
 
+    span {
+      color: rgb(140, 140, 140);
+
+      &:last-child {
+        margin-left: 5px;
+      }
+    }
+
     li {
       padding: 5px 0px 5px 10px;
       margin: 10px 0;
@@ -140,13 +149,58 @@ const MainInfoContainer = styled.div`
 `;
 
 function MainInfo({ match }) {
-  const { movies } = useSelector((state) => ({
+  const { movies, input, users, comments } = useSelector((state) => ({
+    input: state.input,
     movies: state.movies,
+    users: state.users,
+    comments: state.comments,
   }));
+
+  useEffect(() => {
+    dispatch({
+      type: "COMMENT_RESET",
+    });
+
+    const MOVIE_RESPONSE = db.ref(`/Movies/${matchId - 1}/comments`);
+    MOVIE_RESPONSE.on("child_added", (data) => {
+      const commnet = data.val();
+
+      const user = {
+        userName: commnet.userName,
+        comment: commnet.comment,
+      };
+
+      dispatch({
+        type: "COMMENT",
+        user,
+      });
+    });
+  }, []);
+
+  const dispatch = useDispatch();
 
   const matchId = Number(match.params.id);
 
   const movie = movies[matchId - 1].character;
+
+  const onChange = (e) => {
+    dispatch({
+      type: "CHANGE_INPUT",
+      input: e.target.value,
+    });
+  };
+
+  const onClick = () => {
+    dispatch({
+      type: "ADD_COMENT",
+      input,
+    });
+
+    db.ref(`/Movies/${matchId - 1}/comments`).push({
+      comment: input,
+      userName: users.user.userName,
+    });
+  };
 
   const character1 = movie.map((test) => test.character1);
   const character2 = movie.map((test) => test.character2);
@@ -180,20 +234,12 @@ function MainInfo({ match }) {
             <a href="#!">더보기</a>
           </div>
           <div className="basic-infomation__detail">
-            <p>Wonder Woman 1984</p>
-            <p>2020 · 미국 · 액션</p>
-            <p>2시간 31분</p>
+            <p>{movies[matchId - 1].movie_name}</p>
+            <p>{movies[matchId - 1].movie_genre}</p>
+            <p>{movies[matchId - 1].movie_playtime}</p>
 
             <h4>내용 </h4>
-            <p>
-              세상이 기다린 히어로, 희망이 되다! 1984년 모든 것이 활기찬 시대,
-              다이애나 프린스는 고고학자로서 인간들 사이에서 조용히 살고 있다.
-              단지 원더 우먼으로서 위기에 처한 사람을 구할 때만 빼고는. 그런
-              다이애나 앞에 거짓말처럼 죽었던 스티브 트레버가 나타나고, 거부할
-              수 없는 적마저 함께 찾아오는데…지나친 풍요로움이 과잉이 되어 또
-              다시 위협받는 인류, 위태로운 세상에 오직 원더 우먼만이 희망이다!
-              그 어떤 적도 피하지 않는다!
-            </p>
+            <p>{movies[matchId - 1].movie_story}</p>
           </div>
         </div>
         <div className="content-box">
@@ -277,22 +323,19 @@ function MainInfo({ match }) {
           </div>
           <div className="coment-box">
             <div className="coment-input">
-              <input></input>
-              <button>
+              <input onChange={onChange} value={input}></input>
+              <button onClick={onClick}>
                 <img className="StatusImage" src={PlusPath} alt=""></img>
               </button>
             </div>
             <div className="coments">
               <ul>
-                <li>김영섭: 지짜 대바기약!!</li>
-                <li>최수현: 지짜 대바기약!!</li>
-                <li>이정윤: 아휴 머리아파..!!</li>
-                <li>김영섭: 지짜 대바기약!!</li>
-                <li>최수현: 지짜 대바기약!!</li>
-                <li>이정윤: 아휴 머리아파..!!</li>
-                <li>김영섭: 지짜 대바기약!!</li>
-                <li>최수현: 지짜 대바기약!!</li>
-                <li>이정윤: 아휴 머리아파..!!</li>
+                {comments.map((comment) => (
+                  <li>
+                    <span>{comment.userName} :</span>
+                    <span>{comment.comment}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

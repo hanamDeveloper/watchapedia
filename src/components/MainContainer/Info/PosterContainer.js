@@ -149,7 +149,7 @@ function PosterContainer({ match }) {
       <div className="PosterBlock">
         <div className="LeftBackground"></div>
         <div className="Poster">
-          <img src={Movie.movie_poster}></img>
+          <img src={Movie.movie_poster} alt=""></img>
           <div className="LeftGradinet"></div>
           <div className="RightGradinet"></div>
         </div>
