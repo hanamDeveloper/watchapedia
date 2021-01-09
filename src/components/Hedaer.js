@@ -1,15 +1,17 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import LogoPath from "../IMG/로고.PNG";
+import LogoPath from "../IMG/yspedia.png";
 
 const HeaderContainer = styled.div`
   position: fixed;
   top: 0px;
   left: 0px;
-  background-color: rgb(255, 255, 255);
+  background-color: #ffffff;
   width: 100%;
   height: 62px;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 0px 0px;
+  z-index: 10;
 `;
 
 const HeaderBox = styled.div`
@@ -36,6 +38,7 @@ const HeaderBox = styled.div`
   }
 
   li {
+    color: rgb(126, 126, 126);
     margin-left: 24px;
     list-style: none;
   }
@@ -48,18 +51,12 @@ const HeaderBox = styled.div`
     right: 0px;
   }
 
-  .right-content ul {
-    /* width: 70%; */
-  }
-  .form {
-    /* margin-top: 0em; */
-  }
-
   .right-content label {
     width: 300px;
     display: flex;
     align-items: center;
     box-sizing: border-box;
+
     background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIyMiIgdmlld0JveD0iMCAwIDIyIDIyIj4KICAgIDxwYXRoIGZpbGw9IiNCQUJBQzMiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTkuODE0IDE1LjczNWMtMy4yMDcgMC01LjgxNy0yLjYzLTUuODE3LTUuODYxIDAtMy4yMzMgMi42MS01Ljg2MiA1LjgxNy01Ljg2MiAzLjIwNyAwIDUuODE4IDIuNjMgNS44MTggNS44NjJzLTIuNjEgNS44Ni01LjgxOCA1Ljg2bTkuODQxIDIuNTRsLTMuNjYtMy43MDRjLjk4LTEuMzEgMS41NzEtMi45MzIgMS41NzEtNC42OTYgMC00LjMwOC0zLjQ3OC03LjgxMi03Ljc1Mi03LjgxMi00LjI3NCAwLTcuNzUyIDMuNTA0LTcuNzUyIDcuODEyIDAgNC4zMDcgMy40NzggNy44MSA3Ljc1MiA3LjgxIDEuODI5IDAgMy41MDctLjY0NCA0LjgzNC0xLjcxNGwzLjYzNyAzLjY4Yy4xODIuMTg2LjQyNi4yODguNjg1LjI4OC4yNTcgMCAuNS0uMS42ODMtLjI4NC4xODItLjE4NC4yODQtLjQzLjI4NS0uNjkgMC0uMjYtLjEtLjUwNS0uMjgzLS42OSIvPgo8L3N2Zz4K")
       9px 8px no-repeat rgb(245, 245, 247);
     height: 38px;
@@ -73,7 +70,7 @@ const HeaderBox = styled.div`
     font-weight: 400;
     letter-spacing: -0em.3px;
     line-height: 23px;
-    background: transparent;
+    background: rgb(0, 0, 0, 0);
     padding: 0px 0px 1px;
     border: 0px;
     overflow: hidden;
@@ -105,6 +102,11 @@ const HeaderBox = styled.div`
     padding: 5px 14px 6px;
     border: 1px solid rgba(116, 116, 123, 0.5);
   }
+
+  img {
+    width: 151px;
+    height: 37px;
+  }
 `;
 function Header() {
   return (
@@ -113,11 +115,12 @@ function Header() {
         <div className="Category">
           <ul>
             <li>
-              <img src={LogoPath}></img>
+              <Link to="/">
+                <img src={LogoPath} alt=""></img>
+              </Link>
             </li>
             <li>영화</li>
-            <li>TV 프로그램</li>
-            <li>책</li>
+
             <div className="right-content">
               <ul>
                 <li>
