@@ -1,10 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MainContainer from "./components/MainContainer/MainContainer";
+import { authService, db } from "./firebase";
+import { useDispatch, useSelector } from "react-redux";
 import "./CSS/reset.css";
+import "./App.css";
+import Modal from "./components/Modal/Modal";
+
 function App() {
+  const dispatch = useDispatch();
+
+  const fetchMovie = async () => {
+    // db.ref("/Movies/0").update({
+    //   id: 1,
+    //   movie_name: "원더우먼 1984",
+    //   since: "5050",
+    // });
+    const MOVIE_RESPONSE = db.ref("/");
+    await MOVIE_RESPONSE.on("child_added", (data) => {
+      const movies = data.val();
+      dispatch({ type: "SAVE_MOVIES", movies });
+    });
+  };
+
+  useEffect(() => {
+    fetchMovie();
+  }, []);
+  // const [init, setInit] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // useEffect(() => {
+  //   authService.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       setIsLoggedIn(true);
+  //     } else {
+  //       setIsLoggedIn(false);
+  //     }
+  //     setInit(true);
+  //   });
+  // });
   return (
     <>
-      <MainContainer></MainContainer>
+      <div className="App">
+        <MainContainer></MainContainer>
+
+        {/* <Auth></Auth>
+        {init ? <Auth isLoggedIn={isLoggedIn} /> : "Initalizing..."}
+        {/* <Modal /> */}
+      </div>
     </>
   );
 }
