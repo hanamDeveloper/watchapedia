@@ -12,7 +12,6 @@ const MainPageContainer = styled.div`
 `;
 
 function MainContainer() {
-  // console.log(authService.currentUser);
   return (
     <>
       <Header />

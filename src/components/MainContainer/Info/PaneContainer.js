@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import PlusPath from "../../../IMG/Plus.png";
 import DownArrow from "../../../IMG/DownArrow.PNG";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { db } from "../../../firebase";
 
 const PaneBox = styled.div`
   text-align: center;
@@ -207,17 +208,40 @@ const PaneBox = styled.div`
 `;
 
 function PaneContainer({ match }) {
-  const { movies } = useSelector((state) => ({
+  const { movies, votes } = useSelector((state) => ({
     movies: state.movies,
+    votes: state.votes,
   }));
+
+  const dispatch = useDispatch();
 
   const matchId = Number(match.params.id);
 
   const Movie = movies.find((movie) => movie.id === matchId);
 
+  const movieGrade = movies[matchId - 1].grade;
+
+  const fetchVotes = () => {
+    const votes = movies[matchId - 1].votes;
+
+    dispatch({
+      type: "VOTES",
+      votes,
+    });
+  };
+
+  useEffect(() => {
+    fetchVotes();
+  }, []);
+
   const onClickStar = (star) => {
-    // console.log("클릭");
-    // console.log(star);
+    let average = (movieGrade * votes + star) / (votes + 1);
+
+    average = average.toFixed(1);
+    db.ref(`/Movies/${matchId - 1}`).update({
+      grade: average,
+      votes: votes + 1,
+    });
   };
 
   return (
@@ -253,92 +277,102 @@ function PaneContainer({ match }) {
                 </div>
                 <div className="grade-star">
                   <div className="startRadio">
-                    <label
-                      onClick={() => onClickStar(0.5)}
-                      className="startRadio__box"
-                    >
-                      <input type="radio" name="star" id="" />
+                    <label className="startRadio__box">
+                      <input
+                        type="radio"
+                        name="star"
+                        onClick={() => onClickStar(0.5)}
+                      />
                       <span className="startRadio__img">
                         <span className="blind">별 1개</span>
                       </span>
                     </label>
-                    <label
-                      onClick={() => onClickStar(1)}
-                      className="startRadio__box"
-                    >
-                      <input type="radio" name="star" id="" />
+                    <label className="startRadio__box">
+                      <input
+                        type="radio"
+                        name="star"
+                        onClick={() => onClickStar(1)}
+                      />
                       <span className="startRadio__img">
                         <span className="blind">별 1.5개</span>
                       </span>
                     </label>
-                    <label
-                      onClick={() => onClickStar(1.5)}
-                      className="startRadio__box"
-                    >
-                      <input type="radio" name="star" id="" />
+                    <label className="startRadio__box">
+                      <input
+                        type="radio"
+                        name="star"
+                        onClick={() => onClickStar(1.5)}
+                      />
                       <span className="startRadio__img">
                         <span className="blind">별 2개</span>
                       </span>
                     </label>
-                    <label
-                      onClick={() => onClickStar(2)}
-                      className="startRadio__box"
-                    >
-                      <input type="radio" name="star" id="" />
+                    <label className="startRadio__box">
+                      <input
+                        type="radio"
+                        name="star"
+                        onClick={() => onClickStar(2)}
+                      />
                       <span className="startRadio__img">
                         <span className="blind">별 2.5개</span>
                       </span>
                     </label>
-                    <label
-                      onClick={() => onClickStar(2.5)}
-                      className="startRadio__box"
-                    >
-                      <input type="radio" name="star" id="" />
+                    <label className="startRadio__box">
+                      <input
+                        type="radio"
+                        name="star"
+                        onClick={() => onClickStar(2.5)}
+                      />
                       <span className="startRadio__img">
                         <span className="blind">별 3개</span>
                       </span>
                     </label>
-                    <label
-                      onClick={() => onClickStar(3)}
-                      className="startRadio__box"
-                    >
-                      <input type="radio" name="star" id="" />
+                    <label className="startRadio__box">
+                      <input
+                        type="radio"
+                        name="star"
+                        onClick={() => onClickStar(3)}
+                      />
                       <span className="startRadio__img">
                         <span className="blind">별 3.5개</span>
                       </span>
                     </label>
-                    <label
-                      onClick={() => onClickStar(3.5)}
-                      className="startRadio__box"
-                    >
-                      <input type="radio" name="star" id="" />
+                    <label className="startRadio__box">
+                      <input
+                        type="radio"
+                        name="star"
+                        onClick={() => onClickStar(3.5)}
+                      />
                       <span className="startRadio__img">
                         <span className="blind">별 4개</span>
                       </span>
                     </label>
-                    <label
-                      onClick={() => onClickStar(4)}
-                      className="startRadio__box"
-                    >
-                      <input type="radio" name="star" id="" />
+                    <label className="startRadio__box">
+                      <input
+                        type="radio"
+                        name="star"
+                        onClick={() => onClickStar(4)}
+                      />
                       <span className="startRadio__img">
                         <span className="blind">별 4.5개</span>
                       </span>
                     </label>
-                    <label
-                      onClick={() => onClickStar(4.5)}
-                      className="startRadio__box"
-                    >
-                      <input type="radio" name="star" id="" />
+                    <label className="startRadio__box">
+                      <input
+                        type="radio"
+                        name="star"
+                        onClick={() => onClickStar(4.5)}
+                      />
                       <span className="startRadio__img">
                         <span className="blind">별 5개</span>
                       </span>
                     </label>
-                    <label
-                      onClick={() => onClickStar(5)}
-                      className="startRadio__box"
-                    >
-                      <input type="radio" name="star" id="" />
+                    <label className="startRadio__box">
+                      <input
+                        type="radio"
+                        name="star"
+                        onClick={() => onClickStar(5)}
+                      />
                       <span className="startRadio__img">
                         <span className="blind">별 5.5개</span>
                       </span>

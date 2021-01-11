@@ -40,9 +40,6 @@ const Main = styled.section`
 `;
 
 function MovieInfo({ match }) {
-  // db.ref("/Movies/0").update({
-  //   grade: matchId,
-  // });
   return (
     <>
       <Main>

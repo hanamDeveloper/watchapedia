@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import imgLogo from "../../IMG/LoginLogo.PNG";
+import loginLogoPath from "../../IMG/로그인 로고.png";
 import closePath from "../../IMG/Close.PNG";
 import { authService, firebaseInstance } from "../../firebase";
 
@@ -40,7 +40,7 @@ const ModalContainer = styled.div`
 
     img {
       display: inline-block;
-      width: 116px;
+      width: 140px;
       height: 70px;
     }
   }
@@ -158,21 +158,17 @@ function Modal() {
   const onSocialClick = async (e) => {
     const { name } = e.target;
     let provider;
-    console.log(name);
     if (name === "google") {
       provider = new firebaseInstance.auth.GoogleAuthProvider();
     } else if (name === "github") {
       provider = new firebaseInstance.auth.GithubAuthProvider();
     }
     await authService.signInWithPopup(provider);
-
-    console.log(provider);
   };
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
-        console.log("login");
         dispatch({
           type: "LOGIN",
           user,
@@ -191,7 +187,7 @@ function Modal() {
             <div className="close-wrapper">
               <button onClick={() => onClickOpenModal(false)}></button>
             </div>
-            <img src={imgLogo} alt=""></img>
+            <img src={loginLogoPath} alt=""></img>
             <p className="modal-title">{signUp ? "회원가입" : "로그인"}</p>
 
             <input placeholder="이메일"></input>

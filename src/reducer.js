@@ -4,12 +4,22 @@ export default function reducer(state = initialState, action) {
   switch (action.type) {
     case "LOGIN":
       return produce(state, (draft) => {
-        draft.login = !draft.login;
+        draft.login = true;
         draft.users.user.userName = action.user.displayName;
+      });
+    case "LOGOUT":
+      return produce(state, (draft) => {
+        draft.login = false;
       });
     case "COMMENT":
       return produce(state, (draft) => {
         draft.comments.push(action.user);
+      });
+    case "VOTES":
+      console.log("state", state.votes);
+      console.log("action", action.votes);
+      return produce(state, (draft) => {
+        draft.votes = action.votes;
       });
     case "COMMENT_RESET":
       return produce(state, (draft) => {
@@ -59,4 +69,5 @@ export const initialState = {
   },
   input: "",
   comments: [],
+  votes: 0,
 };

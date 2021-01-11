@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { db } from "../../../firebase";
@@ -156,6 +156,8 @@ function MainInfo({ match }) {
     comments: state.comments,
   }));
 
+  const id = useRef(comments.length);
+
   useEffect(() => {
     dispatch({
       type: "COMMENT_RESET",
@@ -168,6 +170,7 @@ function MainInfo({ match }) {
       const user = {
         userName: commnet.userName,
         comment: commnet.comment,
+        id: id.current++,
       };
 
       dispatch({
@@ -209,22 +212,6 @@ function MainInfo({ match }) {
   const character5 = movie.map((test) => test.character5);
   const character6 = movie.map((test) => test.character6);
 
-  // console.log(character1);
-  // console.log(character2);
-  // console.log(character3);
-  // console.log(character4);
-  // console.log(character5);
-  // console.log(character6);
-
-  // console.log(
-  //   "test",
-  //   movie.character.map((test) => test)
-  // );
-  // console.log(
-  //   "character1",
-  //   movie.character.map((test) => test.character1)
-  // );
-
   return (
     <MainInfoBackground>
       <MainInfoContainer>
@@ -248,72 +235,60 @@ function MainInfo({ match }) {
           </div>
           <div className="appearance-production">
             <ul>
-              {character1.map((character) => (
-                <li>
-                  <div className="character-box">
-                    <img src={character.character_image} alt=""></img>
-                    <div className="character-text-box">
-                      <p className="title">{character.character_name}</p>
-                      <p>{character.character_position}</p>
-                    </div>
+              <li>
+                <div className="character-box">
+                  <img src={character1[0].character_image} alt=""></img>
+                  <div className="character-text-box">
+                    <p className="title">{character1[0].character_name}</p>
+                    <p>{character1[0].character_position}</p>
                   </div>
-                </li>
-              ))}
-              {character2.map((character) => (
-                <li>
-                  <div className="character-box">
-                    <img src={character.character_image} alt=""></img>
-                    <div className="character-text-box">
-                      <p className="title">{character.character_name}</p>
-                      <p>{character.character_position}</p>
-                    </div>
+                </div>
+              </li>
+              <li>
+                <div className="character-box">
+                  <img src={character2[0].character_image} alt=""></img>
+                  <div className="character-text-box">
+                    <p className="title">{character2[0].character_name}</p>
+                    <p>{character2[0].character_position}</p>
                   </div>
-                </li>
-              ))}
-              {character3.map((character) => (
-                <li>
-                  <div className="character-box">
-                    <img src={character.character_image} alt=""></img>
-                    <div className="character-text-box">
-                      <p className="title">{character.character_name}</p>
-                      <p>{character.character_position}</p>
-                    </div>
+                </div>
+              </li>
+              <li>
+                <div className="character-box">
+                  <img src={character3[0].character_image} alt=""></img>
+                  <div className="character-text-box">
+                    <p className="title">{character3[0].character_name}</p>
+                    <p>{character3[0].character_position}</p>
                   </div>
-                </li>
-              ))}
-              {character4.map((character) => (
-                <li>
-                  <div className="character-box">
-                    <img src={character.character_image} alt=""></img>
-                    <div className="character-text-box">
-                      <p className="title">{character.character_name}</p>
-                      <p>{character.character_position}</p>
-                    </div>
+                </div>
+              </li>
+              <li>
+                <div className="character-box">
+                  <img src={character4[0].character_image} alt=""></img>
+                  <div className="character-text-box">
+                    <p className="title">{character4[0].character_name}</p>
+                    <p>{character4[0].character_position}</p>
                   </div>
-                </li>
-              ))}
-              {character5.map((character) => (
-                <li>
-                  <div className="character-box">
-                    <img src={character.character_image} alt=""></img>
-                    <div className="character-text-box">
-                      <p className="title">{character.character_name}</p>
-                      <p>{character.character_position}</p>
-                    </div>
+                </div>
+              </li>
+              <li>
+                <div className="character-box">
+                  <img src={character5[0].character_image} alt=""></img>
+                  <div className="character-text-box">
+                    <p className="title">{character5[0].character_name}</p>
+                    <p>{character5[0].character_position}</p>
                   </div>
-                </li>
-              ))}
-              {character6.map((character) => (
-                <li>
-                  <div className="character-box">
-                    <img src={character.character_image} alt=""></img>
-                    <div className="character-text-box">
-                      <p className="title">{character.character_name}</p>
-                      <p>{character.character_position}</p>
-                    </div>
+                </div>
+              </li>
+              <li>
+                <div className="character-box">
+                  <img src={character6[0].character_image} alt=""></img>
+                  <div className="character-text-box">
+                    <p className="title">{character6[0].character_name}</p>
+                    <p>{character6[0].character_position}</p>
                   </div>
-                </li>
-              ))}
+                </div>
+              </li>
             </ul>
           </div>
         </div>
@@ -331,7 +306,7 @@ function MainInfo({ match }) {
             <div className="coments">
               <ul>
                 {comments.map((comment) => (
-                  <li>
+                  <li key={comment.id}>
                     <span>{comment.userName} :</span>
                     <span>{comment.comment}</span>
                   </li>
