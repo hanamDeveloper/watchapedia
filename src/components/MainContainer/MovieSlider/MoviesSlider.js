@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -123,6 +124,7 @@ const MoviesSlider = styled.div`
 function MoviesSliderContainer() {
   const { movies } = useSelector((state) => ({
     movies: state.movies,
+    uusers: state.uusers,
   }));
 
   const settings = {
@@ -205,6 +207,8 @@ function MoviesSliderContainer() {
                   </li>
                 </div>
               ))}
+
+              <a href="#!"></a>
             </Slider>
           </div>
         </MoviesSlider>

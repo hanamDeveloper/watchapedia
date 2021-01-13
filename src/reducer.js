@@ -5,6 +5,7 @@ export default function reducer(state = initialState, action) {
     case "LOGIN":
       return produce(state, (draft) => {
         draft.login = true;
+        draft.modal = false;
         draft.users.user.userName = action.user.displayName;
       });
     case "LOGOUT":
@@ -15,11 +16,9 @@ export default function reducer(state = initialState, action) {
       return produce(state, (draft) => {
         draft.comments.push(action.user);
       });
-    case "VOTES":
-      console.log("state", state.votes);
-      console.log("action", action.votes);
+    case "VOTE":
       return produce(state, (draft) => {
-        draft.votes = action.votes;
+        draft.vote = action.vote;
       });
     case "COMMENT_RESET":
       return produce(state, (draft) => {
@@ -27,16 +26,17 @@ export default function reducer(state = initialState, action) {
       });
     case "CHANGE_INPUT":
       return produce(state, (draft) => {
-        draft.input = action.input;
+        draft.inputs[action.name] = action.value;
+      });
+
+    case "SEARCH_MOVIE":
+      return produce(state, (draft) => {
+        draft.inputs.search = "";
       });
     case "ADD_COMENT":
       return produce(state, (draft) => {
         draft.input = "";
       });
-    //  {
-    //   ...state,
-    //   login: !state.login,
-    // };
     case "SAVE_MOVIES":
       return produce(state, (draft) => {
         draft.movies = action.movies;
@@ -48,6 +48,10 @@ export default function reducer(state = initialState, action) {
     case "CLICK_SIGN_UP":
       return produce(state, (draft) => {
         draft.signUp = action.clickSingup;
+      });
+    case "TEST":
+      return produce(state, (draft) => {
+        draft.votes = action.vote;
       });
 
     default:
@@ -64,10 +68,14 @@ export const initialState = {
     user: {
       userName: "",
       userEmail: "",
-      userAge: 0,
+      userMovieList: {},
     },
   },
-  input: "",
+  inputs: {
+    search: "",
+  },
   comments: [],
+  vote: 0,
   votes: 0,
+  searchMovie: [],
 };

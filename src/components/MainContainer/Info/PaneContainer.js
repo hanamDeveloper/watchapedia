@@ -208,9 +208,10 @@ const PaneBox = styled.div`
 `;
 
 function PaneContainer({ match }) {
-  const { movies, votes } = useSelector((state) => ({
+  const { movies, vote, users } = useSelector((state) => ({
     movies: state.movies,
-    votes: state.votes,
+    vote: state.vote,
+    users: state.users,
   }));
 
   const dispatch = useDispatch();
@@ -222,26 +223,33 @@ function PaneContainer({ match }) {
   const movieGrade = movies[matchId - 1].grade;
 
   const fetchVotes = () => {
-    const votes = movies[matchId - 1].votes;
+    const vote = movies[matchId - 1].votes;
 
     dispatch({
-      type: "VOTES",
-      votes,
+      type: "VOTE",
+      vote,
     });
   };
 
   useEffect(() => {
     fetchVotes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onClickStar = (star) => {
-    let average = (movieGrade * votes + star) / (votes + 1);
+    let average = (movieGrade * vote + star) / (vote + 1);
+
+    alert(`${star} 점을 주셨어요!`);
 
     average = average.toFixed(1);
-    db.ref(`/Movies/${matchId - 1}`).update({
+    db.ref(`/Movies/Movies/${matchId - 1}`).update({
       grade: average,
-      votes: votes + 1,
+      votes: vote + 1,
     });
+  };
+
+  const KeepMovie = () => {
+    alert("업데이트 예정입니다!");
   };
 
   return (
@@ -262,7 +270,9 @@ function PaneContainer({ match }) {
                   <button className="StylelessButton-ActionButton">
                     <div className="contentActionStatusImage">
                       <img className="StatusImage" src={PlusPath} alt=""></img>
-                      <div className="ActionStatus">보고싶어요</div>
+                      <div onClick={KeepMovie} className="ActionStatus">
+                        보고싶어요
+                      </div>
                     </div>
                   </button>
                   <button className="StylelessButton-ActionDropDownButton">

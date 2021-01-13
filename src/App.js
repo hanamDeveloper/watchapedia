@@ -9,8 +9,8 @@ function App() {
   const dispatch = useDispatch();
 
   const fetchMovie = async () => {
-    const MOVIE_RESPONSE = db.ref("/");
-    await MOVIE_RESPONSE.on("child_added", (data) => {
+    const MOVIE_RESPONSE = db.ref("/Movies/");
+    MOVIE_RESPONSE.on("child_added", (data) => {
       const movies = data.val();
       dispatch({ type: "SAVE_MOVIES", movies });
     });
@@ -18,6 +18,7 @@ function App() {
 
   useEffect(() => {
     fetchMovie();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

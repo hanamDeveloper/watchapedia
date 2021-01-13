@@ -14,8 +14,7 @@ const MainPageContainer = styled.div`
 function MainContainer() {
   return (
     <>
-      <Header />
-
+      <Route path="/" component={Header}></Route>
       <MainPageContainer>
         <Route path="/" component={MoviesContainer} exact></Route>
       </MainPageContainer>

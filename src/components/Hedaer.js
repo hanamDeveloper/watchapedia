@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import LogoPath from "../IMG/yspedia.png";
-import Modal from "./Modal/Modal";
+import Modal from "./Modal/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
 import { authService } from "../firebase";
 
@@ -110,10 +110,12 @@ const HeaderBox = styled.div`
     height: 37px;
   }
 `;
-function Header() {
-  const { login, users } = useSelector((state) => ({
+function Header({ history }) {
+  const { login, users, inputs, movies } = useSelector((state) => ({
     login: state.login,
     users: state.users,
+    inputs: state.inputs,
+    movies: state.movies,
   }));
 
   const dispatch = useDispatch();
@@ -133,6 +135,40 @@ function Header() {
     });
   };
 
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    dispatch({
+      type: "CHANGE_INPUT",
+      name,
+      value,
+    });
+  };
+
+  const handleEnterPress = (e) => {
+    const searchMovie = movies.filter(
+      (movie) => movie.movie_name === inputs.search
+    );
+
+    let movieId = null;
+
+    console.log(searchMovie.length);
+
+    if (e.key === "Enter") {
+      if (searchMovie.length === 0) {
+        alert("정확한 영화제목을 입력해주세요");
+      } else {
+        movieId = searchMovie[0].id;
+        history.push(`/movieinfo${movieId}`);
+      }
+
+      console.log(movieId);
+      dispatch({
+        type: "SEARCH_MOVIE",
+        inputs,
+      });
+    }
+  };
+
   return (
     <HeaderContainer>
       <HeaderBox>
@@ -144,15 +180,18 @@ function Header() {
               </Link>
             </li>
             <li>영화</li>
-
             <div className="right-content">
               <ul>
                 <li>
-                  <form>
-                    <label>
-                      <input placeholder="작품 제목, 배우, 감독을 검색해보세요."></input>
-                    </label>
-                  </form>
+                  <label>
+                    <input
+                      value={inputs.search}
+                      onChange={onChange}
+                      onKeyPress={handleEnterPress}
+                      name="search"
+                      placeholder="작품 제목, 배우, 감독을 검색해보세요."
+                    ></input>
+                  </label>
                 </li>
                 <li>
                   <button onClick={() => handleOpenModal(true)}>

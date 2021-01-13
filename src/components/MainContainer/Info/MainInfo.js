@@ -178,6 +178,7 @@ function MainInfo({ match }) {
         user,
       });
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const dispatch = useDispatch();

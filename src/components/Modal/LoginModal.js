@@ -133,7 +133,7 @@ const ModalContainer = styled.div`
   }
 `;
 
-function Modal() {
+function LoginModal() {
   const { modal, signUp } = useSelector((state) => ({
     modal: state.modal,
     signUp: state.signUp,
@@ -230,4 +230,4 @@ function Modal() {
   );
 }
 
-export default Modal;
+export default LoginModal;

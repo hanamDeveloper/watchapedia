@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 const CountBox = styled.div`
@@ -10,10 +11,30 @@ const CountBox = styled.div`
 `;
 
 function CountContainer() {
+  const { movies, votes } = useSelector((state) => ({
+    movies: state.movies,
+    votes: state.votes,
+  }));
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (movies.length !== 0) {
+      let vote = 0;
+      const votesArray = movies.map((movie) => movie.votes);
+      vote = votesArray.reduce((accumulator, current) => accumulator + current);
+
+      dispatch({
+        type: "TEST",
+        vote,
+      });
+    }
+  }, [dispatch, movies]);
+
   return (
     <CountBox>
       <h2>
-        지금까지 <span>★ 580,381,025 개의 평가가</span> 쌓였어요.
+        지금까지 <span>★ {votes}</span>개의 평가가 쌓였어요.
       </h2>
     </CountBox>
   );

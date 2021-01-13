@@ -24,6 +24,7 @@ const PosterBox = styled.div`
     top: auto;
     left: auto;
     height: 100%;
+    /* width: 70%; */
     filter: none;
     background-image: url();
   }
