@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { db } from "../../../firebase";
 import PlusPath from "../../../IMG/Plus.png";
+import Production from "./Production";
 
 const MainInfoBackground = styled.div`
   width: 100%;
@@ -58,54 +59,6 @@ const MainInfoContainer = styled.div`
   .content-box .basic-information a {
     position: absolute;
     right: 0;
-  }
-
-  .appearance-production {
-    ul {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    li {
-      display: flex;
-
-      width: 33%;
-      height: 76px;
-    }
-
-    .character-box {
-      display: flex;
-      align-items: center;
-      width: 100%;
-
-      p {
-        margin: 5px 0 0 0px;
-
-        color: rgb(140, 140, 140);
-        font-size: 14px;
-        font-weight: 400;
-      }
-
-      .title {
-        color: rgb(30, 30, 30);
-        font-size: 16px;
-        font-weight: 700;
-        letter-spacing: -0.7px;
-        line-height: 22px;
-        white-space: nowrap;
-      }
-    }
-
-    li img {
-      width: 56px;
-      width: 56px;
-    }
-
-    li .character-text-box {
-      width: 100%;
-      margin-left: 5%;
-      border-bottom: 1px solid rgb(227, 227, 227);
-    }
   }
 
   .coment-box {
@@ -194,8 +147,6 @@ function MainInfo({ match }) {
 
   const matchId = Number(match.params.id);
 
-  const movie = movies[matchId - 1].character;
-
   const onChange = (e) => {
     const { name, value } = e.target;
 
@@ -217,12 +168,6 @@ function MainInfo({ match }) {
     });
   };
 
-  const character1 = movie.map((test) => test.character1);
-  const character2 = movie.map((test) => test.character2);
-  const character3 = movie.map((test) => test.character3);
-  const character4 = movie.map((test) => test.character4);
-  const character5 = movie.map((test) => test.character5);
-  const character6 = movie.map((test) => test.character6);
   return (
     <MainInfoBackground>
       <MainInfoContainer>
@@ -239,68 +184,12 @@ function MainInfo({ match }) {
             <p>{movies[matchId - 1].movie_story}</p>
           </div>
         </div>
+
         <div className="content-box">
           <div className="basic-information">
             <h3>출연/제작</h3>
           </div>
-          <div className="appearance-production">
-            <ul>
-              <li>
-                <div className="character-box">
-                  <img src={character1[0].character_image} alt=""></img>
-                  <div className="character-text-box">
-                    <p className="title">{character1[0].character_name}</p>
-                    <p>{character1[0].character_position}</p>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="character-box">
-                  <img src={character2[0].character_image} alt=""></img>
-                  <div className="character-text-box">
-                    <p className="title">{character2[0].character_name}</p>
-                    <p>{character2[0].character_position}</p>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="character-box">
-                  <img src={character3[0].character_image} alt=""></img>
-                  <div className="character-text-box">
-                    <p className="title">{character3[0].character_name}</p>
-                    <p>{character3[0].character_position}</p>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="character-box">
-                  <img src={character4[0].character_image} alt=""></img>
-                  <div className="character-text-box">
-                    <p className="title">{character4[0].character_name}</p>
-                    <p>{character4[0].character_position}</p>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="character-box">
-                  <img src={character5[0].character_image} alt=""></img>
-                  <div className="character-text-box">
-                    <p className="title">{character5[0].character_name}</p>
-                    <p>{character5[0].character_position}</p>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="character-box">
-                  <img src={character6[0].character_image} alt=""></img>
-                  <div className="character-text-box">
-                    <p className="title">{character6[0].character_name}</p>
-                    <p>{character6[0].character_position}</p>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
+          <Production matchId={matchId} />
         </div>
         <div className="content-box">
           <div className="basic-information">
