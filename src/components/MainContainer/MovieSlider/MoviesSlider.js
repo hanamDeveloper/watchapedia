@@ -126,21 +126,33 @@ function MoviesSliderContainer() {
     uusers: state.uusers,
   }));
 
-  let innerWidth = 5;
-
-  if (window.innerWidth < 1100) {
-    innerWidth = 4;
-  }
-  if (window.innerWidth < 770) {
-    innerWidth = 3;
-  }
-
   const settings = {
     infinite: false,
     arrows: true,
     speed: 500,
-    slidesToShow: innerWidth,
+    slidesToShow: 5,
     slidesToScroll: 5,
+    responsive: [
+      {
+        breakpoint: 1440,
+        settings: {
+          slidesToShow: 5,
+        },
+      },
+      {
+        breakpoint: 1100,
+        settings: {
+          slidesToShow: 4,
+        },
+      },
+      {
+        breakpoint: 770,
+        settings: {
+          slidesToShow: 3,
+          arrows: false,
+        },
+      },
+    ],
   };
 
   let movie = movies.slice().sort((a, b) => b.grade - a.grade);
