@@ -35,7 +35,7 @@ export default function reducer(state = initialState, action) {
       });
     case "ADD_COMENT":
       return produce(state, (draft) => {
-        draft.input = "";
+        draft.inputs.commentInput = "";
       });
     case "SAVE_MOVIES":
       return produce(state, (draft) => {
@@ -52,6 +52,10 @@ export default function reducer(state = initialState, action) {
     case "TEST":
       return produce(state, (draft) => {
         draft.votes = action.vote;
+      });
+    case "MOBILE_SEARCH":
+      return produce(state, (draft) => {
+        draft.mobileSearch = !state.mobileSearch;
       });
 
     default:
@@ -73,9 +77,12 @@ export const initialState = {
   },
   inputs: {
     search: "",
+    commentInput: "",
   },
   comments: [],
   vote: 0,
   votes: 0,
   searchMovie: [],
+  scrollHeight: false,
+  mobileSearch: false,
 };

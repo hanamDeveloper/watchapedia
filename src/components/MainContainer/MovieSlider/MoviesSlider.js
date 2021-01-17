@@ -16,14 +16,22 @@ const MoviesBox = styled.div`
     text-overflow: ellipsis;
     max-height: 60px;
     line-height: 30px;
+
+    @media ${(props) => props.theme.mobile} {
+      padding-top: 0px;
+    }
   }
 
   .Category p {
     color: #292a32;
     font-size: 22px;
-    font-weight: 1000;
+    font-weight: 900;
     letter-spacing: -0.4px;
     line-height: 30px;
+
+    @media ${(props) => props.theme.mobile} {
+      font-size: 25px;
+    }
   }
 `;
 
@@ -37,7 +45,7 @@ const MoviesSlider = styled.div`
   }
   img {
     display: inline-block;
-    width: 13vw;
+    width: 100%;
     box-sizing: border-box;
   }
 
@@ -93,21 +101,12 @@ const MoviesSlider = styled.div`
     color: #555765;
   }
 
-  .MovieInfo__performance {
-    color: #74747b !important;
-    font-size: 13px !important;
-    letter-spacing: -0.3px;
-  }
   .slick-prev:before,
   .slick-next:before {
     position: absolute;
     left: 0px;
     top: -100%;
     color: black;
-  }
-
-  .slick-initialized .slick-slide {
-    width: 14.05vw !important;
   }
 
   .slick-slider {
@@ -127,11 +126,20 @@ function MoviesSliderContainer() {
     uusers: state.uusers,
   }));
 
+  let innerWidth = 5;
+
+  if (window.innerWidth < 1100) {
+    innerWidth = 4;
+  }
+  if (window.innerWidth < 770) {
+    innerWidth = 3;
+  }
+
   const settings = {
     infinite: false,
     arrows: true,
     speed: 500,
-    slidesToShow: 5,
+    slidesToShow: innerWidth,
     slidesToScroll: 5,
   };
 
@@ -166,14 +174,12 @@ function MoviesSliderContainer() {
                         <p className="MovieInfo__average">
                           평균★ {movie.grade}
                         </p>
-                        <p className="MovieInfo__performance">
-                          예매율 34% ・ 누적 관객 30만명
-                        </p>
                       </div>
                     </Link>
                   </li>
                 </div>
               ))}
+              <a href="#!"></a>
             </Slider>
           </div>
         </MoviesSlider>
@@ -198,9 +204,6 @@ function MoviesSliderContainer() {
                         <p className="MovieInfo__from">{movie.since}</p>
                         <p className="MovieInfo__average">
                           평균★ {movie.grade}
-                        </p>
-                        <p className="MovieInfo__performance">
-                          예매율 34% ・ 누적 관객 30만명
                         </p>
                       </div>
                     </Link>
@@ -234,14 +237,12 @@ function MoviesSliderContainer() {
                         <p className="MovieInfo__average">
                           평균★ {movie.grade}
                         </p>
-                        <p className="MovieInfo__performance">
-                          예매율 34% ・ 누적 관객 30만명
-                        </p>
                       </div>
                     </Link>
                   </li>
                 </div>
               ))}
+              <a href="#!"></a>
             </Slider>
           </div>
         </MoviesSlider>
@@ -266,9 +267,6 @@ function MoviesSliderContainer() {
                         <p className="MovieInfo__from">{movie.since}</p>
                         <p className="MovieInfo__average">
                           평균★ {movie.grade}
-                        </p>
-                        <p className="MovieInfo__performance">
-                          예매율 34% ・ 누적 관객 30만명
                         </p>
                       </div>
                     </Link>

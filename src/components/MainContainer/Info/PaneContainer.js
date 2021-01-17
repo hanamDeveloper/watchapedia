@@ -9,6 +9,35 @@ const PaneBox = styled.div`
   text-align: center;
   padding: 14px 16px 22px;
 
+  .WidthGrid {
+    max-width: 960px;
+    margin: 0 auto;
+
+    @media ${(props) => props.theme.tablet} {
+      max-width: 640px;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+      max-width: auto;
+    }
+  }
+
+  .WidthRow {
+    margin: 0 -8px;
+
+    @media ${(props) => props.theme.tablet} {
+      margin: 0;
+    }
+  }
+
+  .WidthCol {
+    padding: 0 8px;
+
+    @media ${(props) => props.theme.tablet} {
+      padding: 0;
+    }
+  }
+
   .PaneInner {
     text-align: left;
     margin: 0px 0px 0px 191px;
@@ -17,13 +46,35 @@ const PaneBox = styled.div`
       content: "";
       clear: both;
     }
+
+    @media ${(props) => props.theme.tablet} {
+      margin: 0px 0px 0px 173px;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+      text-align: center;
+      margin: 0;
+    }
   }
 
   .Title {
+    width: 520px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 33px;
     font-weight: 700;
     letter-spacing: -1.2px;
     line-height: 40px;
+
+    @media ${(props) => props.theme.tablet} {
+      font-size: 25px;
+      letter-spacing: -0.9px;
+      line-height: 30px;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+      width: auto;
+    }
   }
 
   .Detail {
@@ -34,6 +85,13 @@ const PaneBox = styled.div`
     margin-top: 4px;
     color: rgba(0, 0, 0, 0.5);
     box-sizing: border-box;
+
+    @media ${(props) => props.theme.tablet} {
+      font-size: 15px;
+      letter-spacing: -0.5px;
+      line-height: 20px;
+      margin-top: 3px;
+    }
   }
 
   .ContentRatings {
@@ -51,6 +109,15 @@ const PaneBox = styled.div`
   .ButtonBlock {
     float: left;
     margin: 39px 30px 0px 0px;
+
+    @media ${(props) => props.theme.tablet} {
+      margin: 39px 21px 0px 0px;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+      float: none;
+      margin: 19px 0px 14px;
+    }
   }
 
   .Self {
@@ -63,6 +130,14 @@ const PaneBox = styled.div`
     border-radius: 6px;
     margin: 0px auto;
     overflow: hidden;
+
+    @media ${(props) => props.theme.tablet} {
+      width: 213px;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+      width: 254px;
+    }
   }
 
   .StylelessButton-ActionButton {
@@ -133,24 +208,35 @@ const PaneBox = styled.div`
 
   .Grade {
     float: left;
-    /* width: 300px; */
     margin: 15px 0 0;
-  }
+    @media ${(props) => props.theme.mobile} {
+      float: none;
+      margin: 0;
+    }
 
-  .Evaluate {
-    color: #787878;
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: -0.2px;
-    line-height: 16px;
+    .Evaluate {
+      text-align: left;
+      color: rgb(120, 120, 120);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: -0.2px;
+      line-height: 16px;
+
+      @media ${(props) => props.theme.mobile} {
+        text-align: center;
+      }
+
+      .grade_text {
+        display: inline-block;
+      }
+    }
   }
 
   .grade-star {
     position: relative;
-    text-align: left;
-    /* width: 250px; */
+    width: 200px;
     cursor: pointer;
-    margin: 3px 0 0;
+    margin: 0 auto;
   }
 
   .blind {
@@ -208,7 +294,7 @@ const PaneBox = styled.div`
 `;
 
 function PaneContainer({ match }) {
-  const { movies, vote, users } = useSelector((state) => ({
+  const { movies, vote } = useSelector((state) => ({
     movies: state.movies,
     vote: state.vote,
     users: state.users,

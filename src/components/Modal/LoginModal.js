@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import loginLogoPath from "../../IMG/로그인 로고.png";
 import closePath from "../../IMG/Close.PNG";
 import { authService, firebaseInstance } from "../../firebase";
+import Input from "../Input";
+import Label from "../Label";
 
 const ModalContainer = styled.div`
   .modal-wrapper {
@@ -77,32 +79,6 @@ const ModalContainer = styled.div`
   .close-img {
     width: 100% !important;
     height: 100% !important;
-  }
-
-  /* label {
-    width: 100%;
-    align-items: center;
-    box-sizing: border-box;
-
-    height: 38px;
-    padding: 7px 10px 8px 36px;
-    border-radius: 2px;
-  } */
-
-  input {
-    width: 100%;
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: -0em.3px;
-    line-height: 23px;
-    background: rgb(245, 245, 247);
-    margin: 10px 0px;
-    padding: 10px 10px;
-    border: 0px;
-    box-sizing: border-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    caret-color: rgb(53, 53, 53);
   }
 
   .ButtonBlock {
@@ -190,8 +166,13 @@ function LoginModal() {
             <img src={loginLogoPath} alt=""></img>
             <p className="modal-title">{signUp ? "회원가입" : "로그인"}</p>
 
-            <input placeholder="이메일"></input>
-            <input placeholder="패스워드"></input>
+            <Label width="100%" padding="12px 15px 11px 46px">
+              <Input placeholder="이메일" />
+            </Label>
+
+            <Label width="100%" padding="12px 15px 11px 46px">
+              <Input placeholder="패스워드" />
+            </Label>
 
             <div className="Self">
               <span className="StylelessButton-ActionButton">

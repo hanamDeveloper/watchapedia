@@ -5,15 +5,19 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducer from "./reducer";
+import theme from "./theme";
+import { ThemeProvider } from "styled-components";
 
 const store = createStore(reducer);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>,
+  <ThemeProvider theme={theme}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </ThemeProvider>,
   document.getElementById("root")
 );
 

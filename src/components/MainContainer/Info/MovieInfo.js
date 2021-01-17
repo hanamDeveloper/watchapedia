@@ -7,7 +7,11 @@ import PaneContainer from "./PaneContainer";
 const Main = styled.section`
   padding-top: 0px;
   padding-bottom: unset;
-  border-bottom: 1px solid #e3e3e3;
+
+  @media ${(props) => props.theme.mobile} {
+    border-bottom: 1px solid #e3e3e3;
+  }
+
   .Content {
     display: flex;
   }
@@ -22,20 +26,7 @@ const Main = styled.section`
   }
 
   h1 {
-    margin: 0;
-  }
-
-  .WidthGrid {
-    max-width: 960px;
-    margin: 0 auto;
-  }
-
-  .WidthRow {
-    margin: 0 -8px;
-  }
-
-  .WidthCol {
-    padding: 0 8px;
+    margin: 0px;
   }
 `;
 

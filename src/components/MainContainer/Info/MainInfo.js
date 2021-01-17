@@ -11,12 +11,20 @@ const MainInfoBackground = styled.div`
 `;
 
 const MainInfoContainer = styled.div`
-  width: 50%;
+  width: 976px;
   margin: 0 auto;
   padding-bottom: 20px;
   background-color: white;
   border: 1px solid rgb(227, 227, 227);
   border-radius: 15px;
+
+  @media ${(props) => props.theme.tablet} {
+    width: 640px;
+  }
+
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+  }
   ul {
     margin: 0;
     padding: 0;
@@ -149,11 +157,12 @@ const MainInfoContainer = styled.div`
 `;
 
 function MainInfo({ match }) {
-  const { movies, input, users, comments } = useSelector((state) => ({
-    input: state.input,
+  const { movies, inputs, users, comments, login } = useSelector((state) => ({
+    inputs: state.inputs,
     movies: state.movies,
     users: state.users,
     comments: state.comments,
+    login: state.login,
   }));
 
   const id = useRef(comments.length);
@@ -163,13 +172,13 @@ function MainInfo({ match }) {
       type: "COMMENT_RESET",
     });
 
-    const MOVIE_RESPONSE = db.ref(`/Movies/${matchId - 1}/comments`);
+    const MOVIE_RESPONSE = db.ref(`/Movies/Movies/${matchId - 1}/comments`);
     MOVIE_RESPONSE.on("child_added", (data) => {
-      const commnet = data.val();
+      const comment = data.val();
 
       const user = {
-        userName: commnet.userName,
-        comment: commnet.comment,
+        userName: comment.userName,
+        comment: comment.comment,
         id: id.current++,
       };
 
@@ -188,20 +197,22 @@ function MainInfo({ match }) {
   const movie = movies[matchId - 1].character;
 
   const onChange = (e) => {
+    const { name, value } = e.target;
+
     dispatch({
       type: "CHANGE_INPUT",
-      input: e.target.value,
+      name,
+      value,
     });
   };
 
   const onClick = () => {
     dispatch({
       type: "ADD_COMENT",
-      input,
     });
 
-    db.ref(`/Movies/${matchId - 1}/comments`).push({
-      comment: input,
+    db.ref(`/Movies/Movies/${matchId - 1}/comments`).push({
+      comment: inputs.commentInput,
       userName: users.user.userName,
     });
   };
@@ -212,14 +223,12 @@ function MainInfo({ match }) {
   const character4 = movie.map((test) => test.character4);
   const character5 = movie.map((test) => test.character5);
   const character6 = movie.map((test) => test.character6);
-
   return (
     <MainInfoBackground>
       <MainInfoContainer>
         <div className="content-box">
           <div className="basic-information">
             <h3>기본정보</h3>
-            <a href="#!">더보기</a>
           </div>
           <div className="basic-infomation__detail">
             <p>{movies[matchId - 1].movie_name}</p>
@@ -299,7 +308,16 @@ function MainInfo({ match }) {
           </div>
           <div className="coment-box">
             <div className="coment-input">
-              <input onChange={onChange} value={input}></input>
+              {login ? (
+                <input
+                  name="commentInput"
+                  onChange={onChange}
+                  value={inputs.commentInput}
+                />
+              ) : (
+                <input value={"   로그인 후에 이용해주세요"} />
+              )}
+
               <button onClick={onClick}>
                 <img className="StatusImage" src={PlusPath} alt=""></img>
               </button>
