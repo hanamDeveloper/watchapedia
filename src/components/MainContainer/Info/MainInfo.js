@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { db } from "../../../firebase";
 import PlusPath from "../../../IMG/Plus.png";
+import Input from "../../Input";
+import Production from "./Production";
 
 const MainInfoBackground = styled.div`
   width: 100%;
@@ -11,12 +13,20 @@ const MainInfoBackground = styled.div`
 `;
 
 const MainInfoContainer = styled.div`
-  width: 50%;
+  width: 976px;
   margin: 0 auto;
   padding-bottom: 20px;
   background-color: white;
   border: 1px solid rgb(227, 227, 227);
   border-radius: 15px;
+
+  @media ${(props) => props.theme.tablet} {
+    width: 640px;
+  }
+
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+  }
   ul {
     margin: 0;
     padding: 0;
@@ -50,54 +60,6 @@ const MainInfoContainer = styled.div`
   .content-box .basic-information a {
     position: absolute;
     right: 0;
-  }
-
-  .appearance-production {
-    ul {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    li {
-      display: flex;
-
-      width: 33%;
-      height: 76px;
-    }
-
-    .character-box {
-      display: flex;
-      align-items: center;
-      width: 100%;
-
-      p {
-        margin: 5px 0 0 0px;
-
-        color: rgb(140, 140, 140);
-        font-size: 14px;
-        font-weight: 400;
-      }
-
-      .title {
-        color: rgb(30, 30, 30);
-        font-size: 16px;
-        font-weight: 700;
-        letter-spacing: -0.7px;
-        line-height: 22px;
-        white-space: nowrap;
-      }
-    }
-
-    li img {
-      width: 56px;
-      width: 56px;
-    }
-
-    li .character-text-box {
-      width: 100%;
-      margin-left: 5%;
-      border-bottom: 1px solid rgb(227, 227, 227);
-    }
   }
 
   .coment-box {
@@ -149,25 +111,29 @@ const MainInfoContainer = styled.div`
 `;
 
 function MainInfo({ match }) {
-  const { movies, input, users, comments } = useSelector((state) => ({
-    input: state.input,
-    movies: state.movies,
-    users: state.users,
-    comments: state.comments,
+  const { movies, inputs, comments, login, users } = useSelector((state) => ({
+    inputs: state.reducer.inputs,
+    movies: state.reducer.movies,
+    comments: state.reducer.comments,
+    login: state.reducer.login,
+    users: state.reducer.users,
   }));
+
+  const id = useRef(comments.length);
 
   useEffect(() => {
     dispatch({
       type: "COMMENT_RESET",
     });
 
-    const MOVIE_RESPONSE = db.ref(`/Movies/${matchId - 1}/comments`);
+    const MOVIE_RESPONSE = db.ref(`/Movies/Movies/${matchId - 1}/comments`);
     MOVIE_RESPONSE.on("child_added", (data) => {
-      const commnet = data.val();
+      const comment = data.val();
 
       const user = {
-        userName: commnet.userName,
-        comment: commnet.comment,
+        userName: comment.userName,
+        comment: comment.comment,
+        id: id.current++,
       };
 
       dispatch({
@@ -175,55 +141,34 @@ function MainInfo({ match }) {
         user,
       });
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const dispatch = useDispatch();
 
   const matchId = Number(match.params.id);
 
-  const movie = movies[matchId - 1].character;
-
   const onChange = (e) => {
+    const { name, value } = e.target;
+
     dispatch({
       type: "CHANGE_INPUT",
-      input: e.target.value,
+      name,
+      value,
     });
   };
 
   const onClick = () => {
     dispatch({
       type: "ADD_COMENT",
-      input,
+      // inputs,
     });
 
-    db.ref(`/Movies/${matchId - 1}/comments`).push({
-      comment: input,
+    db.ref(`/Movies/Movies/${matchId - 1}/comments`).push({
+      comment: inputs.commentInput,
       userName: users.user.userName,
     });
   };
-
-  const character1 = movie.map((test) => test.character1);
-  const character2 = movie.map((test) => test.character2);
-  const character3 = movie.map((test) => test.character3);
-  const character4 = movie.map((test) => test.character4);
-  const character5 = movie.map((test) => test.character5);
-  const character6 = movie.map((test) => test.character6);
-
-  // console.log(character1);
-  // console.log(character2);
-  // console.log(character3);
-  // console.log(character4);
-  // console.log(character5);
-  // console.log(character6);
-
-  // console.log(
-  //   "test",
-  //   movie.character.map((test) => test)
-  // );
-  // console.log(
-  //   "character1",
-  //   movie.character.map((test) => test.character1)
-  // );
 
   return (
     <MainInfoBackground>
@@ -231,7 +176,6 @@ function MainInfo({ match }) {
         <div className="content-box">
           <div className="basic-information">
             <h3>기본정보</h3>
-            <a href="#!">더보기</a>
           </div>
           <div className="basic-infomation__detail">
             <p>{movies[matchId - 1].movie_name}</p>
@@ -242,80 +186,12 @@ function MainInfo({ match }) {
             <p>{movies[matchId - 1].movie_story}</p>
           </div>
         </div>
+
         <div className="content-box">
           <div className="basic-information">
             <h3>출연/제작</h3>
           </div>
-          <div className="appearance-production">
-            <ul>
-              {character1.map((character) => (
-                <li>
-                  <div className="character-box">
-                    <img src={character.character_image} alt=""></img>
-                    <div className="character-text-box">
-                      <p className="title">{character.character_name}</p>
-                      <p>{character.character_position}</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-              {character2.map((character) => (
-                <li>
-                  <div className="character-box">
-                    <img src={character.character_image} alt=""></img>
-                    <div className="character-text-box">
-                      <p className="title">{character.character_name}</p>
-                      <p>{character.character_position}</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-              {character3.map((character) => (
-                <li>
-                  <div className="character-box">
-                    <img src={character.character_image} alt=""></img>
-                    <div className="character-text-box">
-                      <p className="title">{character.character_name}</p>
-                      <p>{character.character_position}</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-              {character4.map((character) => (
-                <li>
-                  <div className="character-box">
-                    <img src={character.character_image} alt=""></img>
-                    <div className="character-text-box">
-                      <p className="title">{character.character_name}</p>
-                      <p>{character.character_position}</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-              {character5.map((character) => (
-                <li>
-                  <div className="character-box">
-                    <img src={character.character_image} alt=""></img>
-                    <div className="character-text-box">
-                      <p className="title">{character.character_name}</p>
-                      <p>{character.character_position}</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-              {character6.map((character) => (
-                <li>
-                  <div className="character-box">
-                    <img src={character.character_image} alt=""></img>
-                    <div className="character-text-box">
-                      <p className="title">{character.character_name}</p>
-                      <p>{character.character_position}</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Production matchId={matchId} />
         </div>
         <div className="content-box">
           <div className="basic-information">
@@ -323,7 +199,16 @@ function MainInfo({ match }) {
           </div>
           <div className="coment-box">
             <div className="coment-input">
-              <input onChange={onChange} value={input}></input>
+              {login ? (
+                <Input
+                  onChange={onChange}
+                  name="commentInput"
+                  value={inputs.commentInput}
+                ></Input>
+              ) : (
+                <input readOnly value={"   로그인 후에 이용해주세요"} />
+              )}
+
               <button onClick={onClick}>
                 <img className="StatusImage" src={PlusPath} alt=""></img>
               </button>
@@ -331,7 +216,7 @@ function MainInfo({ match }) {
             <div className="coments">
               <ul>
                 {comments.map((comment) => (
-                  <li>
+                  <li key={comment.id}>
                     <span>{comment.userName} :</span>
                     <span>{comment.comment}</span>
                   </li>

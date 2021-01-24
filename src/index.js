@@ -4,16 +4,30 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import reducer from "./reducer";
+import rootReducer from "./rootReducer";
+import theme from "./theme";
 
-const store = createStore(reducer);
+import { ThemeProvider } from "styled-components";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+
+const store = createStore(
+  rootReducer,
+  window.devToolsExtension && window.devToolsExtension()
+);
+
+const persistor = persistStore(store);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>,
+  <ThemeProvider theme={theme}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
+  </ThemeProvider>,
   document.getElementById("root")
 );
 

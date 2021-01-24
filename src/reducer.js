@@ -1,15 +1,65 @@
 import produce from "immer";
 
+export const initialState = {
+  modal: false,
+  signUp: false,
+  login: false,
+  movies: [],
+  users: {
+    user: {
+      userName: "",
+      userEmail: "",
+      userMovieList: {},
+    },
+  },
+  inputs: {
+    search: "",
+    commentInput: "",
+  },
+  comments: [],
+  vote: 0,
+  votes: 0,
+  searchMovie: [],
+  scrollHeight: false,
+  mobileSearch: false,
+  saveStar: 0,
+  movieNames: [],
+};
+
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case "LOGIN":
       return produce(state, (draft) => {
-        draft.login = !draft.login;
+        draft.login = true;
+        draft.modal = false;
         draft.users.user.userName = action.user.displayName;
+        draft.users.user.userEmail = action.user.email;
+      });
+    case "LOGOUT":
+      return produce(state, (draft) => {
+        draft.login = false;
+        draft.saveStar = 0;
       });
     case "COMMENT":
       return produce(state, (draft) => {
         draft.comments.push(action.user);
+      });
+    case "VOTE":
+      return produce(state, (draft) => {
+        draft.vote = action.vote;
+      });
+    case "SAVE_USER_MOVIE_INFO":
+      return produce(state, (draft) => {
+        draft.saveStar = action.star;
+      });
+
+    case "RESET_SAVE_STAR":
+      return produce(state, (draft) => {
+        draft.saveStar = 0;
+      });
+    case "SAVE_MOVIE_NAMES":
+      return produce(state, (draft) => {
+        draft.movieNames = action.MovieNames;
       });
     case "COMMENT_RESET":
       return produce(state, (draft) => {
@@ -17,16 +67,18 @@ export default function reducer(state = initialState, action) {
       });
     case "CHANGE_INPUT":
       return produce(state, (draft) => {
-        draft.input = action.input;
+        draft.inputs[action.name] = action.value;
+      });
+
+    case "SEARCH_MOVIE":
+      return produce(state, (draft) => {
+        draft.inputs.search = "";
       });
     case "ADD_COMENT":
+      console.log("ADD 코멘트");
       return produce(state, (draft) => {
-        draft.input = "";
+        draft.inputs.commentInput = "";
       });
-    //  {
-    //   ...state,
-    //   login: !state.login,
-    // };
     case "SAVE_MOVIES":
       return produce(state, (draft) => {
         draft.movies = action.movies;
@@ -39,24 +91,15 @@ export default function reducer(state = initialState, action) {
       return produce(state, (draft) => {
         draft.signUp = action.clickSingup;
       });
-
+    case "TEST":
+      return produce(state, (draft) => {
+        draft.votes = action.vote;
+      });
+    case "MOBILE_SEARCH":
+      return produce(state, (draft) => {
+        draft.mobileSearch = !state.mobileSearch;
+      });
     default:
       return state;
   }
 }
-
-export const initialState = {
-  modal: false,
-  signUp: false,
-  login: false,
-  movies: [],
-  users: {
-    user: {
-      userName: "",
-      userEmail: "",
-      userAge: 0,
-    },
-  },
-  input: "",
-  comments: [],
-};

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -15,14 +16,22 @@ const MoviesBox = styled.div`
     text-overflow: ellipsis;
     max-height: 60px;
     line-height: 30px;
+
+    @media ${(props) => props.theme.mobile} {
+      padding-top: 0px;
+    }
   }
 
   .Category p {
     color: #292a32;
     font-size: 22px;
-    font-weight: 1000;
+    font-weight: 900;
     letter-spacing: -0.4px;
     line-height: 30px;
+
+    @media ${(props) => props.theme.mobile} {
+      font-size: 25px;
+    }
   }
 `;
 
@@ -36,7 +45,7 @@ const MoviesSlider = styled.div`
   }
   img {
     display: inline-block;
-    width: 13vw;
+    width: 100%;
     box-sizing: border-box;
   }
 
@@ -64,6 +73,11 @@ const MoviesSlider = styled.div`
     transition: opacity 300ms ease 0s;
   }
 
+  .Movie,
+  img {
+    border-radius: 5px;
+  }
+
   .MovieInfo {
     font-size: 12px;
     text-align: left;
@@ -87,11 +101,6 @@ const MoviesSlider = styled.div`
     color: #555765;
   }
 
-  .MovieInfo__performance {
-    color: #74747b !important;
-    font-size: 13px !important;
-    letter-spacing: -0.3px;
-  }
   .slick-prev:before,
   .slick-next:before {
     position: absolute;
@@ -100,45 +109,79 @@ const MoviesSlider = styled.div`
     color: black;
   }
 
-  .slick-initialized .slick-slide {
-    width: 14.05vw !important;
-  }
-
   .slick-slider {
     display: flex;
     justify-content: center;
+
+    .slick-prev.slick-disabled:before,
+    .slick-next.slick-disabled:before {
+      display: none;
+    }
   }
 `;
 
 function MoviesSliderContainer() {
-  const { movies } = useSelector((state) => ({
-    movies: state.movies,
+  const { movies, mobileSearch } = useSelector((state) => ({
+    movies: state.reducer.movies,
+    mobileSearch: state.reducer.mobileSearch,
   }));
 
   const settings = {
-    infinite: true,
+    infinite: false,
     arrows: true,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 5,
+    responsive: [
+      {
+        breakpoint: 1440,
+        settings: {
+          slidesToShow: 5,
+        },
+      },
+      {
+        breakpoint: 1100,
+        settings: {
+          slidesToShow: 4,
+        },
+      },
+      {
+        breakpoint: 770,
+        settings: {
+          slidesToShow: 3,
+          arrows: false,
+        },
+      },
+    ],
   };
+
+  let movie = movies.slice().sort((a, b) => b.grade - a.grade);
+  const USA = movies.filter((contrys) => contrys.contry === "미국");
+  let usa = USA.slice().sort((a, b) => b.grade - a.grade);
+  const KOREA = movies.filter((contrys) => contrys.contry === "한국");
+  let korea = KOREA.slice().sort((a, b) => b.grade - a.grade);
+  const JAPAN = movies.filter((contrys) => contrys.contry === "일본");
+  let japan = JAPAN.slice().sort((a, b) => b.grade - a.grade);
 
   return (
     <>
       <MoviesBox>
-        <div className="Category">
+        <div
+          className="Category"
+          style={{ marginTop: mobileSearch ? "68px" : "" }}
+        >
           <p>총 평점 순위</p>
         </div>
         <MoviesSlider>
           <div>
             <Slider {...settings}>
-              {movies.map((movie) => (
+              {movie.map((movie, rank) => (
                 <div key={movie.id}>
                   <li>
                     <Link to={`/movieinfo${movie.id}`}>
                       <div className="Movie">
                         <img src={movie.movie_photo} alt=""></img>
-                        <div className="RankNumber">{movie.id}</div>
+                        <div className="RankNumber">{rank + 1}</div>
                       </div>
                       <div className="MovieInfo">
                         <p className="MovieInfo__name">{movie.movie_name}</p>
@@ -146,101 +189,99 @@ function MoviesSliderContainer() {
                         <p className="MovieInfo__average">
                           평균★ {movie.grade}
                         </p>
-                        <p className="MovieInfo__performance">
-                          예매율 34% ・ 누적 관객 30만명
-                        </p>
                       </div>
                     </Link>
                   </li>
                 </div>
               ))}
+              <a href="#!"></a>
             </Slider>
           </div>
         </MoviesSlider>
       </MoviesBox>
       <MoviesBox>
         <div className="Category">
-          <p>10대가 좋아하는 영화 순위</p>
+          <p>한국영화 순위</p>
         </div>
         <MoviesSlider>
           <div>
             <Slider {...settings}>
-              {movies.map((movie) => (
+              {korea.map((movie, rank) => (
                 <div key={movie.id}>
                   <li>
-                    <Link to="/movieinfo">
+                    <Link to={`/movieinfo${movie.id}`}>
                       <div className="Movie">
                         <img src={movie.movie_photo} alt=""></img>
-                        <div className="RankNumber">{}</div>
+                        <div className="RankNumber">{rank + 1}</div>
                       </div>
                       <div className="MovieInfo">
                         <p className="MovieInfo__name">{movie.movie_name}</p>
                         <p className="MovieInfo__from">{movie.since}</p>
-                        <p className="MovieInfo__average">{movie.grade}</p>
-                        <p className="MovieInfo__performance">
-                          예매율 34% ・ 누적 관객 30만명
+                        <p className="MovieInfo__average">
+                          평균★ {movie.grade}
                         </p>
                       </div>
                     </Link>
                   </li>
                 </div>
               ))}
+
+              <a href="#!"></a>
             </Slider>
           </div>
         </MoviesSlider>
       </MoviesBox>
       <MoviesBox>
         <div className="Category">
-          <p>20대가 좋아하는 영화 순위</p>
+          <p>미국영화 순위</p>
         </div>
         <MoviesSlider>
           <div>
             <Slider {...settings}>
-              {movies.map((movie) => (
+              {usa.map((movie, rank) => (
                 <div key={movie.id}>
                   <li>
-                    <Link to="/movieinfo">
+                    <Link to={`/movieinfo${movie.id}`}>
                       <div className="Movie">
                         <img src={movie.movie_photo} alt=""></img>
-                        <div className="RankNumber">{}</div>
+                        <div className="RankNumber">{rank + 1}</div>
                       </div>
                       <div className="MovieInfo">
                         <p className="MovieInfo__name">{movie.movie_name}</p>
                         <p className="MovieInfo__from">{movie.since}</p>
-                        <p className="MovieInfo__average">{movie.grade}</p>
-                        <p className="MovieInfo__performance">
-                          예매율 34% ・ 누적 관객 30만명
+                        <p className="MovieInfo__average">
+                          평균★ {movie.grade}
                         </p>
                       </div>
                     </Link>
                   </li>
                 </div>
               ))}
+              <a href="#!"></a>
             </Slider>
           </div>
         </MoviesSlider>
       </MoviesBox>
       <MoviesBox>
         <div className="Category">
-          <p>30대가 좋아하는 영화 순위</p>
+          <p>일본영화 순위</p>
         </div>
         <MoviesSlider>
           <div>
             <Slider {...settings}>
-              {movies.map((movie) => (
+              {japan.map((movie, rank) => (
                 <div key={movie.id}>
                   <li>
-                    <Link to="/movieinfo">
+                    <Link to={`/movieinfo${movie.id}`}>
                       <div className="Movie">
                         <img src={movie.movie_photo} alt=""></img>
-                        <div className="RankNumber">{}</div>
+                        <div className="RankNumber">{rank + 1}</div>
                       </div>
                       <div className="MovieInfo">
                         <p className="MovieInfo__name">{movie.movie_name}</p>
                         <p className="MovieInfo__from">{movie.since}</p>
-                        <p className="MovieInfo__average">{movie.grade}</p>
-                        <p className="MovieInfo__performance">
-                          예매율 34% ・ 누적 관객 30만명
+                        <p className="MovieInfo__average">
+                          평균★ {movie.grade}
                         </p>
                       </div>
                     </Link>

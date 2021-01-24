@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import imgLogo from "../../IMG/LoginLogo.PNG";
+import loginLogoPath from "../../IMG/로그인 로고.png";
 import closePath from "../../IMG/Close.PNG";
 import { authService, firebaseInstance } from "../../firebase";
 
@@ -40,7 +40,7 @@ const ModalContainer = styled.div`
 
     img {
       display: inline-block;
-      width: 116px;
+      width: 140px;
       height: 70px;
     }
   }
@@ -79,32 +79,6 @@ const ModalContainer = styled.div`
     height: 100% !important;
   }
 
-  /* label {
-    width: 100%;
-    align-items: center;
-    box-sizing: border-box;
-
-    height: 38px;
-    padding: 7px 10px 8px 36px;
-    border-radius: 2px;
-  } */
-
-  input {
-    width: 100%;
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: -0em.3px;
-    line-height: 23px;
-    background: rgb(245, 245, 247);
-    margin: 10px 0px;
-    padding: 10px 10px;
-    border: 0px;
-    box-sizing: border-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    caret-color: rgb(53, 53, 53);
-  }
-
   .ButtonBlock {
     float: left;
     margin: 39px 30px 0px 0px;
@@ -133,10 +107,10 @@ const ModalContainer = styled.div`
   }
 `;
 
-function Modal() {
+function LoginModal() {
   const { modal, signUp } = useSelector((state) => ({
-    modal: state.modal,
-    signUp: state.signUp,
+    modal: state.reducer.modal,
+    signUp: state.reducer.signUp,
   }));
 
   const dispatch = useDispatch();
@@ -158,27 +132,21 @@ function Modal() {
   const onSocialClick = async (e) => {
     const { name } = e.target;
     let provider;
-    console.log(name);
     if (name === "google") {
       provider = new firebaseInstance.auth.GoogleAuthProvider();
     } else if (name === "github") {
       provider = new firebaseInstance.auth.GithubAuthProvider();
     }
     await authService.signInWithPopup(provider);
-
-    console.log(provider);
   };
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
-        console.log("login");
         dispatch({
           type: "LOGIN",
           user,
         });
-      } else {
-        console.log("로그인실패");
       }
     });
   }, [dispatch]);
@@ -191,17 +159,8 @@ function Modal() {
             <div className="close-wrapper">
               <button onClick={() => onClickOpenModal(false)}></button>
             </div>
-            <img src={imgLogo} alt=""></img>
-            <p className="modal-title">{signUp ? "회원가입" : "로그인"}</p>
-
-            <input placeholder="이메일"></input>
-            <input placeholder="패스워드"></input>
-
-            <div className="Self">
-              <span className="StylelessButton-ActionButton">
-                {signUp ? "회원가입" : "로그인"}
-              </span>
-            </div>
+            <img src={loginLogoPath} alt=""></img>
+            <p className="modal-title">로그인</p>
             <div className="Self">
               <button
                 className="StylelessButton-ActionButton"
@@ -222,9 +181,9 @@ function Modal() {
             </div>
 
             <p>
-              {signUp ? "계정이있어요!" : "계정이 없으신가요?"}
+              {signUp ? "계정이있어요!  " : "계정이 없으신가요?  "}
               <span onClick={() => onClickSignUp(!signUp)}>
-                {signUp ? "로그인" : "회원가입"}
+                {signUp ? "로그인" : "소셜로 로그인 해주세요"}
               </span>
             </p>
           </div>
@@ -234,4 +193,4 @@ function Modal() {
   );
 }
 
-export default Modal;
+export default LoginModal;
