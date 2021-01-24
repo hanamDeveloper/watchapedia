@@ -1,15 +1,11 @@
 import React, { useEffect } from "react";
 import MainContainer from "./components/MainContainer/MainContainer";
 import { db } from "./firebase";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import "./CSS/reset.css";
 import "./App.css";
 
 function App() {
-  const { loading } = useSelector((state) => ({
-    loading: state.reducer.loading,
-  }));
-
   const dispatch = useDispatch();
 
   const fetchMovie = async () => {
