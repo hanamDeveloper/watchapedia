@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import homePath from "../../IMG/home.png";
-import searchPath from "../../IMG/search.png";
-import mobilestarPath from "../../IMG/mobilestar.png";
-import userPath from "../../IMG/user.png";
+import homePath from "../../IMG/home.svg";
+import searchPath from "../../IMG/search.svg";
+import mobilestarPath from "../../IMG/mobilestar.svg";
+import userPath from "../../IMG/user.svg";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -28,6 +28,11 @@ const MobileFooterContainer = styled.div`
 
     li {
       cursor: pointer;
+    }
+
+    img {
+      width: 28px;
+      height: 28px;
     }
   }
 `;

@@ -97,10 +97,10 @@ const HeaderBox = styled.div`
 `;
 function Header({ history }) {
   const { login, users, inputs } = useSelector((state) => ({
-    users: state.users,
-    login: state.login,
-    inputs: state.inputs,
-    movies: state.movies,
+    users: state.reducer.users,
+    login: state.reducer.login,
+    inputs: state.reducer.inputs,
+    movies: state.reducer.movies,
   }));
 
   const dispatch = useDispatch();
@@ -149,9 +149,13 @@ function Header({ history }) {
                   <Modal />
                 </li>
                 <li>
-                  <button onClick={onClickLogOut} className="sign-up">
-                    로그아웃
-                  </button>
+                  {login ? (
+                    <button onClick={onClickLogOut} className="sign-up">
+                      로그아웃
+                    </button>
+                  ) : (
+                    ""
+                  )}
                 </li>
               </ul>
             </div>

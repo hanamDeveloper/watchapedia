@@ -17,8 +17,8 @@ const InputContainer = styled.input`
 
 function Input({ placeholder, width, name, value, history, fontSize }) {
   const { inputs, movies } = useSelector((state) => ({
-    inputs: state.inputs,
-    movies: state.movies,
+    inputs: state.reducer.inputs,
+    movies: state.reducer.movies,
   }));
 
   const dispatch = useDispatch();

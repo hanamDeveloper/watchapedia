@@ -121,9 +121,9 @@ const MoviesSlider = styled.div`
 `;
 
 function MoviesSliderContainer() {
-  const { movies } = useSelector((state) => ({
-    movies: state.movies,
-    uusers: state.uusers,
+  const { movies, mobileSearch } = useSelector((state) => ({
+    movies: state.reducer.movies,
+    mobileSearch: state.reducer.mobileSearch,
   }));
 
   const settings = {
@@ -166,7 +166,10 @@ function MoviesSliderContainer() {
   return (
     <>
       <MoviesBox>
-        <div className="Category">
+        <div
+          className="Category"
+          style={{ marginTop: mobileSearch ? "68px" : "" }}
+        >
           <p>총 평점 순위</p>
         </div>
         <MoviesSlider>

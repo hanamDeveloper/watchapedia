@@ -12,8 +12,8 @@ const CountBox = styled.div`
 
 function CountContainer() {
   const { movies, votes } = useSelector((state) => ({
-    movies: state.movies,
-    votes: state.votes,
+    movies: state.reducer.movies,
+    votes: state.reducer.votes,
   }));
 
   const dispatch = useDispatch();

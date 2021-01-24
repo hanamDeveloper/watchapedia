@@ -1,5 +1,31 @@
 import produce from "immer";
 
+export const initialState = {
+  modal: false,
+  signUp: false,
+  login: false,
+  movies: [],
+  users: {
+    user: {
+      userName: "",
+      userEmail: "",
+      userMovieList: {},
+    },
+  },
+  inputs: {
+    search: "",
+    commentInput: "",
+  },
+  comments: [],
+  vote: 0,
+  votes: 0,
+  searchMovie: [],
+  scrollHeight: false,
+  mobileSearch: false,
+  saveStar: 0,
+  movieNames: [],
+};
+
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case "LOGIN":
@@ -7,10 +33,12 @@ export default function reducer(state = initialState, action) {
         draft.login = true;
         draft.modal = false;
         draft.users.user.userName = action.user.displayName;
+        draft.users.user.userEmail = action.user.email;
       });
     case "LOGOUT":
       return produce(state, (draft) => {
         draft.login = false;
+        draft.saveStar = 0;
       });
     case "COMMENT":
       return produce(state, (draft) => {
@@ -19,6 +47,19 @@ export default function reducer(state = initialState, action) {
     case "VOTE":
       return produce(state, (draft) => {
         draft.vote = action.vote;
+      });
+    case "SAVE_USER_MOVIE_INFO":
+      return produce(state, (draft) => {
+        draft.saveStar = action.star;
+      });
+
+    case "RESET_SAVE_STAR":
+      return produce(state, (draft) => {
+        draft.saveStar = 0;
+      });
+    case "SAVE_MOVIE_NAMES":
+      return produce(state, (draft) => {
+        draft.movieNames = action.MovieNames;
       });
     case "COMMENT_RESET":
       return produce(state, (draft) => {
@@ -57,32 +98,7 @@ export default function reducer(state = initialState, action) {
       return produce(state, (draft) => {
         draft.mobileSearch = !state.mobileSearch;
       });
-
     default:
       return state;
   }
 }
-
-export const initialState = {
-  modal: false,
-  signUp: false,
-  login: false,
-  movies: [],
-  users: {
-    user: {
-      userName: "",
-      userEmail: "",
-      userMovieList: {},
-    },
-  },
-  inputs: {
-    search: "",
-    commentInput: "",
-  },
-  comments: [],
-  vote: 0,
-  votes: 0,
-  searchMovie: [],
-  scrollHeight: false,
-  mobileSearch: false,
-};

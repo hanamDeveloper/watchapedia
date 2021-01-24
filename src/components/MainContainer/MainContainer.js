@@ -13,6 +13,21 @@ const MainPageContainer = styled.div`
   margin: 0 auto;
   width: 70%;
 
+  animation: backColor 1s;
+
+  @keyframes backColor {
+    0% {
+      opacity: 0;
+      display: block;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      display: none;
+    }
+  }
+
   @media ${(props) => props.theme.tablet} {
     width: 90%;
   }
@@ -22,10 +37,13 @@ function MainContainer() {
   return (
     <>
       <Route path="/" component={MobileHeader} />
+
       <Route path="/" component={Header}></Route>
-      <MainPageContainer>
-        <Route path="/" component={MoviesContainer} exact></Route>
-      </MainPageContainer>
+      <div className="nodeblog">
+        <MainPageContainer>
+          <Route path="/" component={MoviesContainer} exact></Route>
+        </MainPageContainer>
+      </div>
       <Route path="/movieinfo:id" component={MovieInfo} exact></Route>
 
       <Footer />

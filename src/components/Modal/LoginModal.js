@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import loginLogoPath from "../../IMG/로그인 로고.png";
 import closePath from "../../IMG/Close.PNG";
 import { authService, firebaseInstance } from "../../firebase";
-import Input from "../Input";
-import Label from "../Label";
 
 const ModalContainer = styled.div`
   .modal-wrapper {
@@ -111,8 +109,8 @@ const ModalContainer = styled.div`
 
 function LoginModal() {
   const { modal, signUp } = useSelector((state) => ({
-    modal: state.modal,
-    signUp: state.signUp,
+    modal: state.reducer.modal,
+    signUp: state.reducer.signUp,
   }));
 
   const dispatch = useDispatch();
@@ -149,8 +147,6 @@ function LoginModal() {
           type: "LOGIN",
           user,
         });
-      } else {
-        console.log("로그인실패");
       }
     });
   }, [dispatch]);
@@ -164,21 +160,7 @@ function LoginModal() {
               <button onClick={() => onClickOpenModal(false)}></button>
             </div>
             <img src={loginLogoPath} alt=""></img>
-            <p className="modal-title">{signUp ? "회원가입" : "로그인"}</p>
-
-            <Label width="100%" padding="12px 15px 11px 46px">
-              <Input placeholder="이메일" />
-            </Label>
-
-            <Label width="100%" padding="12px 15px 11px 46px">
-              <Input placeholder="패스워드" />
-            </Label>
-
-            <div className="Self">
-              <span className="StylelessButton-ActionButton">
-                {signUp ? "회원가입" : "로그인"}
-              </span>
-            </div>
+            <p className="modal-title">로그인</p>
             <div className="Self">
               <button
                 className="StylelessButton-ActionButton"
@@ -199,9 +181,9 @@ function LoginModal() {
             </div>
 
             <p>
-              {signUp ? "계정이있어요!" : "계정이 없으신가요?"}
+              {signUp ? "계정이있어요!  " : "계정이 없으신가요?  "}
               <span onClick={() => onClickSignUp(!signUp)}>
-                {signUp ? "로그인" : "회원가입"}
+                {signUp ? "로그인" : "소셜로 로그인 해주세요"}
               </span>
             </p>
           </div>

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { db } from "../../../firebase";
+import { db, dbStore } from "../../../firebase";
 
 const StarContainer = styled.div`
   .Grade {
@@ -91,18 +91,29 @@ const StarContainer = styled.div`
   }
 `;
 function Star({ matchId }) {
-  const { movies, vote } = useSelector((state) => ({
-    movies: state.movies,
-    vote: state.vote,
-    users: state.users,
-  }));
+  const { movies, vote, users, saveStar, movieNames, login } = useSelector(
+    (state) => ({
+      movies: state.reducer.movies,
+      vote: state.reducer.vote,
+      users: state.reducer.users,
+      saveStar: state.reducer.saveStar,
+      movieNames: state.reducer.movieNames,
+      login: state.reducer.login,
+    })
+  );
 
   const dispatch = useDispatch();
 
   const movieGrade = movies[matchId - 1].grade;
+  const movieName = movies[matchId - 1].movie_name;
 
+  //별점 클릭
   const onClickStar = (star) => {
     let average = (movieGrade * vote + star) / (vote + 1);
+
+    dispatch({
+      type: "ADD_USER_HAS_MOVIE",
+    });
 
     alert(`${star} 점을 주셨어요!`);
 
@@ -111,7 +122,83 @@ function Star({ matchId }) {
       grade: average,
       votes: vote + 1,
     });
+
+    //사용자 이메일과 영화에 해당하는 값 조회
+    dbStore
+      .collection("users")
+      .where("MovieName", "==", `${movieName}`)
+      .where("userEmail", "==", `${users.user.userEmail}`)
+      .get()
+      .then(function (querySnapshot) {
+        //해당 영화에 대한 평점 정보가 있을 경우
+        if (querySnapshot.size > 0) {
+          querySnapshot.forEach(function (doc) {
+            //해당 영화의 키값으로 정보 수정
+            dbStore.collection("users").doc(`${doc.id}`).update({
+              myStar: star,
+            });
+
+            //수정한 값을 다시 조회
+            dbStore
+              .collection("users")
+              .doc(`${doc.id}`)
+              .get()
+              .then(function (doc) {
+                const saveUserMovieInfo = doc.data();
+                //수정 후 별점을 리듀서를 통해 상태 없데이트
+                dispatch({
+                  type: "SAVE_USER_MOVIE_INFO",
+                  star: saveUserMovieInfo.myStar,
+                });
+              });
+          });
+        } else {
+          //해당 영화에 대한 평점 정보가 없을 경우 DB에 저장
+          dbStore.collection("users").add({
+            userName: users.user.userName,
+            userEmail: users.user.userEmail,
+            MovieName: movieName,
+            myStar: star,
+          });
+          //리듀서를 통해 star 값 업데이트 -> 리렌더링
+          dispatch({
+            type: "SAVE_USER_MOVIE_INFO",
+            star: star,
+          });
+        }
+      });
   };
+
+  const onLogOutClick = () => {
+    alert("로그인 후 이용가능합니다.");
+  };
+
+  useEffect(() => {
+    //처음 영화상세페이지 들어왔을 때 사용자 이메일과 영화에 해당하는 값 조회
+    dbStore
+      .collection("users")
+      .where("MovieName", "==", `${movieName}`)
+      .where("userEmail", "==", `${users.user.userEmail}`)
+      .get()
+      .then(function (querySnapshot) {
+        //console.log("TF11", querySnapshot.size);
+        //해당 영화에 대한 평점 정보가 있을 경우
+        if (querySnapshot.size > 0) {
+          querySnapshot.forEach(function (doc) {
+            //console.log("star", doc.data().myStar);
+            dispatch({
+              type: "SAVE_USER_MOVIE_INFO",
+              star: doc.data().myStar,
+            });
+          });
+        } else {
+          //해당 영화에 대한 평점 정보가 없을 경우
+          dispatch({
+            type: "RESET_SAVE_STAR",
+          });
+        }
+      });
+  }, [dispatch, movieName, movieNames, users.user.userEmail]);
 
   const fetchVotes = () => {
     const vote = movies[matchId - 1].votes;
@@ -138,14 +225,34 @@ function Star({ matchId }) {
               <input
                 type="radio"
                 name="star"
-                onClick={() => onClickStar(0.5)}
+                onClick={login ? () => onClickStar(0.5) : () => onLogOutClick()}
+                checked={saveStar === 0.5 ? true : false}
+                readOnly
+              />
+              <span className="startRadio__img">
+                <span className="blind">별 0.5개</span>
+              </span>
+            </label>
+            <label className="startRadio__box">
+              <input
+                type="radio"
+                name="star"
+                onClick={login ? () => onClickStar(1) : () => onLogOutClick()}
+                checked={saveStar === 1 ? true : false}
+                readOnly
               />
               <span className="startRadio__img">
                 <span className="blind">별 1개</span>
               </span>
             </label>
             <label className="startRadio__box">
-              <input type="radio" name="star" onClick={() => onClickStar(1)} />
+              <input
+                type="radio"
+                name="star"
+                onClick={login ? () => onClickStar(1.5) : () => onLogOutClick()}
+                checked={saveStar === 1.5 ? true : false}
+                readOnly
+              />
               <span className="startRadio__img">
                 <span className="blind">별 1.5개</span>
               </span>
@@ -154,14 +261,22 @@ function Star({ matchId }) {
               <input
                 type="radio"
                 name="star"
-                onClick={() => onClickStar(1.5)}
+                onClick={login ? () => onClickStar(2) : () => onLogOutClick()}
+                checked={saveStar === 2 ? true : false}
+                readOnly
               />
               <span className="startRadio__img">
                 <span className="blind">별 2개</span>
               </span>
             </label>
             <label className="startRadio__box">
-              <input type="radio" name="star" onClick={() => onClickStar(2)} />
+              <input
+                type="radio"
+                name="star"
+                onClick={login ? () => onClickStar(2.5) : () => onLogOutClick()}
+                checked={saveStar === 2.5 ? true : false}
+                readOnly
+              />
               <span className="startRadio__img">
                 <span className="blind">별 2.5개</span>
               </span>
@@ -170,14 +285,22 @@ function Star({ matchId }) {
               <input
                 type="radio"
                 name="star"
-                onClick={() => onClickStar(2.5)}
+                onClick={login ? () => onClickStar(3) : () => onLogOutClick()}
+                checked={saveStar === 3 ? true : false}
+                readOnly
               />
               <span className="startRadio__img">
                 <span className="blind">별 3개</span>
               </span>
             </label>
             <label className="startRadio__box">
-              <input type="radio" name="star" onClick={() => onClickStar(3)} />
+              <input
+                type="radio"
+                name="star"
+                onClick={login ? () => onClickStar(3.5) : () => onLogOutClick()}
+                checked={saveStar === 3.5 ? true : false}
+                readOnly
+              />
               <span className="startRadio__img">
                 <span className="blind">별 3.5개</span>
               </span>
@@ -186,14 +309,22 @@ function Star({ matchId }) {
               <input
                 type="radio"
                 name="star"
-                onClick={() => onClickStar(3.5)}
+                onClick={login ? () => onClickStar(4) : () => onLogOutClick()}
+                checked={saveStar === 4 ? true : false}
+                readOnly
               />
               <span className="startRadio__img">
                 <span className="blind">별 4개</span>
               </span>
             </label>
             <label className="startRadio__box">
-              <input type="radio" name="star" onClick={() => onClickStar(4)} />
+              <input
+                type="radio"
+                name="star"
+                onClick={login ? () => onClickStar(4.5) : () => onLogOutClick()}
+                checked={saveStar === 4.5 ? true : false}
+                readOnly
+              />
               <span className="startRadio__img">
                 <span className="blind">별 4.5개</span>
               </span>
@@ -202,16 +333,12 @@ function Star({ matchId }) {
               <input
                 type="radio"
                 name="star"
-                onClick={() => onClickStar(4.5)}
+                onClick={login ? () => onClickStar(5) : () => onLogOutClick()}
+                checked={saveStar === 5 ? true : false}
+                readOnly
               />
               <span className="startRadio__img">
                 <span className="blind">별 5개</span>
-              </span>
-            </label>
-            <label className="startRadio__box">
-              <input type="radio" name="star" onClick={() => onClickStar(5)} />
-              <span className="startRadio__img">
-                <span className="blind">별 5.5개</span>
               </span>
             </label>
           </div>

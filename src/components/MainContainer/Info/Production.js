@@ -10,19 +10,20 @@ const ProductionContainer = styled.div`
 
     li {
       display: flex;
-
-      width: 33%;
-      height: 76px;
+      width: 30%;
+      height: 100px;
+      margin: 0 15px;
     }
 
     .character-box {
       display: flex;
+      height: 100%;
       align-items: center;
       width: 100%;
+      box-sizing: border-box;
 
       p {
         margin: 5px 0 0 0px;
-
         color: rgb(140, 140, 140);
         font-size: 14px;
         font-weight: 400;
@@ -41,19 +42,25 @@ const ProductionContainer = styled.div`
     li img {
       width: 56px;
       width: 56px;
+      border-radius: 7px;
     }
 
     li .character-text-box {
+      border-bottom: 1px solid rgb(227, 227, 227);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 80px;
       width: 100%;
       margin-left: 5%;
-      border-bottom: 1px solid rgb(227, 227, 227);
+      /* padding-bottom: 30px; */
     }
   }
 `;
 
 function Production({ matchId }) {
   const { movies } = useSelector((state) => ({
-    movies: state.movies,
+    movies: state.reducer.movies,
   }));
 
   const movie = movies[matchId - 1].character;

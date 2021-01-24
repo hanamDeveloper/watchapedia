@@ -209,7 +209,7 @@ const PaneBox = styled.div`
 
 function PaneContainer({ match }) {
   const { movies } = useSelector((state) => ({
-    movies: state.movies,
+    movies: state.reducer.movies,
   }));
 
   const matchId = Number(match.params.id);

@@ -111,11 +111,11 @@ const MainInfoContainer = styled.div`
 
 function MainInfo({ match }) {
   const { movies, inputs, users, comments, login } = useSelector((state) => ({
-    inputs: state.inputs,
-    movies: state.movies,
-    users: state.users,
-    comments: state.comments,
-    login: state.login,
+    inputs: state.reducer.inputs,
+    movies: state.reducer.movies,
+    users: state.reducer.users,
+    comments: state.reducer.comments,
+    login: state.reducer.login,
   }));
 
   const id = useRef(comments.length);
@@ -161,11 +161,6 @@ function MainInfo({ match }) {
     dispatch({
       type: "ADD_COMENT",
     });
-
-    db.ref(`/Movies/Movies/${matchId - 1}/comments`).push({
-      comment: inputs.commentInput,
-      userName: users.user.userName,
-    });
   };
 
   return (
@@ -204,7 +199,7 @@ function MainInfo({ match }) {
                   value={inputs.commentInput}
                 />
               ) : (
-                <input value={"   로그인 후에 이용해주세요"} />
+                <input readOnly value={"   로그인 후에 이용해주세요"} />
               )}
 
               <button onClick={onClick}>

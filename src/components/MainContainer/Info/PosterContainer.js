@@ -243,8 +243,9 @@ const PosterBox = styled.div`
 `;
 
 function PosterContainer({ match }) {
-  const { movies } = useSelector((state) => ({
-    movies: state.movies,
+  const { movies, mobileSearch } = useSelector((state) => ({
+    movies: state.reducer.movies,
+    mobileSearch: state.reducer.mobileSearch,
   }));
 
   const matchId = Number(match.params.id);
@@ -266,7 +267,10 @@ function PosterContainer({ match }) {
       <div className="WidthContainer">
         <div className="WidthBox">
           <div className="WidthA">
-            <div className="PosterWithRankingInfoBlock">
+            <div
+              className="PosterWithRankingInfoBlock"
+              style={{ marginTop: mobileSearch ? "68px" : "" }}
+            >
               <div className="StyledLazyLoadingImage">
                 <img alt="영화 포스터" src={Movie.movie_photo}></img>
               </div>
