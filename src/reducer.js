@@ -75,6 +75,7 @@ export default function reducer(state = initialState, action) {
         draft.inputs.search = "";
       });
     case "ADD_COMENT":
+      console.log("ADD 코멘트");
       return produce(state, (draft) => {
         draft.inputs.commentInput = "";
       });

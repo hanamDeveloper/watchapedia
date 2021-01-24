@@ -143,7 +143,13 @@ function Header({ history }) {
                   </Label>
                 </li>
                 <li>
-                  <button onClick={() => handleOpenModal(true)}>
+                  <button
+                    onClick={
+                      login
+                        ? () => alert("업데이트예정입니다")
+                        : () => handleOpenModal(true)
+                    }
+                  >
                     {login ? `${users.user.userName}님 ` : "로그인"}
                   </button>
                   <Modal />

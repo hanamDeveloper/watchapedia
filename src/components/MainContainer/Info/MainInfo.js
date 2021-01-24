@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { db } from "../../../firebase";
 import PlusPath from "../../../IMG/Plus.png";
+import Input from "../../Input";
 import Production from "./Production";
 
 const MainInfoBackground = styled.div`
@@ -110,12 +111,12 @@ const MainInfoContainer = styled.div`
 `;
 
 function MainInfo({ match }) {
-  const { movies, inputs, users, comments, login } = useSelector((state) => ({
+  const { movies, inputs, comments, login, users } = useSelector((state) => ({
     inputs: state.reducer.inputs,
     movies: state.reducer.movies,
-    users: state.reducer.users,
     comments: state.reducer.comments,
     login: state.reducer.login,
+    users: state.reducer.users,
   }));
 
   const id = useRef(comments.length);
@@ -160,6 +161,12 @@ function MainInfo({ match }) {
   const onClick = () => {
     dispatch({
       type: "ADD_COMENT",
+      // inputs,
+    });
+
+    db.ref(`/Movies/Movies/${matchId - 1}/comments`).push({
+      comment: inputs.commentInput,
+      userName: users.user.userName,
     });
   };
 
@@ -193,11 +200,11 @@ function MainInfo({ match }) {
           <div className="coment-box">
             <div className="coment-input">
               {login ? (
-                <input
-                  name="commentInput"
+                <Input
                   onChange={onChange}
+                  name="commentInput"
                   value={inputs.commentInput}
-                />
+                ></Input>
               ) : (
                 <input readOnly value={"   로그인 후에 이용해주세요"} />
               )}
