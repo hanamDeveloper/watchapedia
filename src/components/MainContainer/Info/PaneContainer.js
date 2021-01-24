@@ -228,10 +228,10 @@ function PaneContainer({ match }) {
             <div className="PaneInner">
               <h1 className="Title">{Movie.movie_name}</h1>
               <div className="Detail">
-                {Movie.since} ・ 액션 ・ {Movie.contry}
+                {Movie.since} ・ {Movie.movie_genre} ・ {Movie.contry}
               </div>
               <div className="ContentRatings">
-                평균 ★{Movie.grade} (5,134명)
+                평균 ★{Movie.grade} ({Movie.votes} 명)
               </div>
               <div className="ButtonBlock">
                 <div className="Self">
