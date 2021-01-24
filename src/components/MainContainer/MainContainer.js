@@ -12,7 +12,6 @@ import MoviesContainer from "./MoviesContainer";
 const MainPageContainer = styled.div`
   margin: 0 auto;
   width: 70%;
-
   animation: backColor 1s;
 
   @keyframes backColor {

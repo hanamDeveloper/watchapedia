@@ -1,15 +1,19 @@
 import React, { useEffect } from "react";
 import MainContainer from "./components/MainContainer/MainContainer";
 import { db } from "./firebase";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./CSS/reset.css";
 import "./App.css";
 
 function App() {
+  const { loading } = useSelector((state) => ({
+    loading: state.reducer.loading,
+  }));
+
   const dispatch = useDispatch();
 
   const fetchMovie = async () => {
-    const MOVIE_RESPONSE = db.ref("/Movies/");
+    const MOVIE_RESPONSE = await db.ref("/Movies/");
     MOVIE_RESPONSE.on("child_added", (data) => {
       const movies = data.val();
       dispatch({ type: "SAVE_MOVIES", movies });
@@ -18,8 +22,6 @@ function App() {
 
   useEffect(() => {
     fetchMovie();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
