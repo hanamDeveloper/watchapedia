@@ -66,17 +66,12 @@ const ModalContainer = styled.div`
     right: 10px;
     padding: 0;
     margin: 0;
-    background: url(${closePath});
-    button {
+    img {
       width: 100%;
       height: 100%;
       margin: 0;
+      cursor: pointer;
     }
-  }
-
-  .close-img {
-    width: 100% !important;
-    height: 100% !important;
   }
 
   .ButtonBlock {
@@ -157,7 +152,11 @@ function LoginModal() {
         <div className="modal-wrapper">
           <div className="login-modal">
             <div className="close-wrapper">
-              <button onClick={() => onClickOpenModal(false)}></button>
+              <img
+                src={closePath}
+                alt=""
+                onClick={() => onClickOpenModal(false)}
+              />
             </div>
             <img src={loginLogoPath} alt=""></img>
             <p className="modal-title">로그인</p>
