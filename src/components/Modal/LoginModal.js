@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import loginLogoPath from "../../IMG/로그인 로고.png";
-import closePath from "../../IMG/Close.png";
+import closePath from "../../IMG/close.png";
 import { authService, firebaseInstance } from "../../firebase";
 
 const ModalContainer = styled.div`
