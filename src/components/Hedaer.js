@@ -114,7 +114,7 @@ function Header({ history }) {
 
   const onClickLogOut = () => {
     authService.signOut();
-    alert("logout할게요");
+    alert("logout합니다.");
     dispatch({
       type: "LOGOUT",
     });
