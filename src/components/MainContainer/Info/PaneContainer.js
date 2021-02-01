@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PlusPath from "../../../IMG/Plus.png";
-import DownArrow from "../../../IMG/DownArrow.PNG";
+import DownArrow from "../../../IMG/DownArrow.png";
 import { useSelector } from "react-redux";
 import Star from "./Star";
 
