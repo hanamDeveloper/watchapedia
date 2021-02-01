@@ -135,7 +135,7 @@ function LoginModal() {
     if (name === "google") {
       provider = new firebaseInstance.auth.GoogleAuthProvider();
     } else if (name === "github") {
-      provider = new firebaseInstance.auth.GithubAuthProvider();
+      alert("업데이트 예정입니다. 구글로 로그인해주세요");
     }
     await authService.signInWithPopup(provider);
   };
