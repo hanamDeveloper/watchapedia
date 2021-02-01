@@ -25,7 +25,7 @@ function CountContainer() {
       vote = votesArray.reduce((accumulator, current) => accumulator + current);
 
       dispatch({
-        type: "TEST",
+        type: "VOTES",
         vote,
       });
     }

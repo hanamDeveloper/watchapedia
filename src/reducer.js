@@ -49,6 +49,10 @@ export default function reducer(state = initialState, action) {
       return produce(state, (draft) => {
         draft.vote = action.vote;
       });
+    case "VOTES":
+      return produce(state, (draft) => {
+        draft.votes = action.vote;
+      });
     case "SAVE_USER_MOVIE_INFO":
       return produce(state, (draft) => {
         draft.saveStar = action.star;
