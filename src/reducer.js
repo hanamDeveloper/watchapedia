@@ -37,6 +37,7 @@ export default function reducer(state = initialState, action) {
       });
     case "LOGOUT":
       return produce(state, (draft) => {
+        draft.users = initialState.users;
         draft.login = false;
         draft.saveStar = 0;
       });
@@ -52,7 +53,6 @@ export default function reducer(state = initialState, action) {
       return produce(state, (draft) => {
         draft.saveStar = action.star;
       });
-
     case "RESET_SAVE_STAR":
       return produce(state, (draft) => {
         draft.saveStar = 0;
@@ -90,10 +90,6 @@ export default function reducer(state = initialState, action) {
     case "CLICK_SIGN_UP":
       return produce(state, (draft) => {
         draft.signUp = action.clickSingup;
-      });
-    case "TEST":
-      return produce(state, (draft) => {
-        draft.votes = action.vote;
       });
     case "MOBILE_SEARCH":
       return produce(state, (draft) => {
