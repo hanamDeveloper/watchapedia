@@ -161,7 +161,6 @@ function MainInfo({ match }) {
   const onClick = () => {
     dispatch({
       type: "ADD_COMENT",
-      // inputs,
     });
 
     db.ref(`/Movies/Movies/${matchId - 1}/comments`).push({
@@ -209,7 +208,11 @@ function MainInfo({ match }) {
                 <input readOnly value={"   로그인 후에 이용해주세요"} />
               )}
 
-              <button onClick={onClick}>
+              <button
+                onClick={
+                  login ? onClick : () => alert("로그인 후 사용해주세요")
+                }
+              >
                 <img className="StatusImage" src={PlusPath} alt=""></img>
               </button>
             </div>
